@@ -34,60 +34,70 @@ unc_migration_jes_down = []
 unc_migration_jer_down = []
 unc_migration_jms_down = []
 unc_migration_jmr_down = []
-  
-def createOutfiles(sys, channel):
-  xmlfile = '/mnt/t3nfs01/data01/shome/thaarres/EXOVVAnalysisRunII/ExoDiBosonAnalysis/config/sys/%s_sys.xml' %channel
-  tree = ET.parse(xmlfile)
-  root = tree.getroot()
-  print "Doing systematics: %s" %sys 
-  
-  r = root.find('Cycle').find('UserConfig')																    
-  for i in r.findall('Item'):	
-    if i.get('Name') == 'scaleUncPar':	
-      if sys == 'CV':		
-        i.set('Value','')
-      else:		
-        i.set('Value','%s'%sys)
-  print "Changing version name to: %s" %sys   
-  rr = root.find('Cycle')    
-  for i in rr.findall('InputData'):	
-    i.set('Version','%s'%sys)
 
-  fname = '/mnt/t3nfs01/data01/shome/thaarres/EXOVVAnalysisRunII/ExoDiBosonAnalysis/config/sys/%s_%s.xml' %(channel,sys)
-  print "Saving .xml as: %s" %fname            
-  with open( fname , 'w') as f:
-    f.write('<?xml version="1.0" encoding="UTF-8"?>\n<!DOCTYPE JobConfiguration PUBLIC "" "/mnt/t3nfs01/data01/shome/thaarres/EXOVVAnalysisRunII/ExoDiBosonAnalysis/config/JobConfig.dtd">\n')
-    tree.write(f, 'utf-8')
 
-def runSFrame(xml): 
-  cmd = 'sframe_main %s' %(xml)
-  print cmd
-  os.system(cmd)
+unc_yield_scale_down = []
+unc_yield_res_down = []
+unc_yield_scale_up = []
+unc_yield_res_up = []
+unc_migration_scale_down = []
+unc_migration_res_down = []
+unc_migration_scale_up = []
+unc_migration_res_up = []
   
-def runMultiprocess(doSys, channel): 
+#def createOutfiles(sys, channel):
+  #xmlfile = '/mnt/t3nfs01/data01/shome/thaarres/EXOVVAnalysisRunII/ExoDiBosonAnalysis/config/sys/%s_sys.xml' %channel
+  #tree = ET.parse(xmlfile)
+  #root = tree.getroot()
+  #print "Doing systematics: %s" %sys 
   
-  print "start multiprocess"
-  #gROOT.SetBatch(True)
-  #parallelProcesses = multiprocessing.cpu_count()
+  #r = root.find('Cycle').find('UserConfig')																    
+  #for i in r.findall('Item'):	
+    #if i.get('Name') == 'scaleUncPar':	
+      #if sys == 'CV':		
+        #i.set('Value','')
+      #else:		
+        #i.set('Value','%s'%sys)
+  #print "Changing version name to: %s" %sys   
+  #rr = root.find('Cycle')    
+  #for i in rr.findall('InputData'):	
+    #i.set('Version','%s'%sys)
+
+  #fname = '/mnt/t3nfs01/data01/shome/thaarres/EXOVVAnalysisRunII/ExoDiBosonAnalysis/config/sys/%s_%s.xml' %(channel,sys)
+  #print "Saving .xml as: %s" %fname            
+  #with open( fname , 'w') as f:
+    #f.write('<?xml version="1.0" encoding="UTF-8"?>\n<!DOCTYPE JobConfiguration PUBLIC "" "/mnt/t3nfs01/data01/shome/thaarres/EXOVVAnalysisRunII/ExoDiBosonAnalysis/config/JobConfig.dtd">\n')
+    #tree.write(f, 'utf-8')
+
+#def runSFrame(xml): 
+  #cmd = 'sframe_main %s' %(xml)
+  #print cmd
+  #os.system(cmd)
   
-  files = []
-  for sys in doSys:
-    fname = '/mnt/t3nfs01/data01/shome/thaarres/EXOVVAnalysisRunII/ExoDiBosonAnalysis/config/sys/%s_%s.xml' %(channel,sys)
-    files.append(fname)
+#def runMultiprocess(doSys, channel): 
+  
+  #print "start multiprocess"
+  ##gROOT.SetBatch(True)
+  ##parallelProcesses = multiprocessing.cpu_count()
+  
+  #files = []
+  #for sys in doSys:
+    #fname = '/mnt/t3nfs01/data01/shome/thaarres/EXOVVAnalysisRunII/ExoDiBosonAnalysis/config/sys/%s_%s.xml' %(channel,sys)
+    #files.append(fname)
 
-  ## create Pool
-  #p = multiprocessing.Pool(parallelProcesses)
-  #print "Using %i parallel processes" %parallelProcesses
+  ### create Pool
+  ##p = multiprocessing.Pool(parallelProcesses)
+  ##print "Using %i parallel processes" %parallelProcesses
 
-  for f in files:
-    cmd = 'sframe_main %s &' %(f)
-    print cmd
-    os.system(cmd)
-    # run jobs
-    # p.apply_async(runSFrame, args = (f))
+  #for f in files:
+    #cmd = 'sframe_main %s &' %(f)
+    #print cmd
+    #os.system(cmd)
+    ## run jobs
+    ## p.apply_async(runSFrame, args = (f))
 
- # p.close()
-  #p.join()
+ ## p.close()
+  ##p.join()
 
 def calculateYields(sys):
   
@@ -98,16 +108,18 @@ def calculateYields(sys):
   if status:																				      
     os.system('mkdir %s/%s' %(outpath,sys))
     
-  masses = [1200,1400,1800,2000,3000,3500,4000,4500]
-
   
   signals = ['%s'%opts.signal]
   if opts.signal == 'ALL':
     signals = ['BulkWW','BulkZZ','WprimeWZ',"ZprimeWW"]
   
   for signal in signals:
+    masses = [1200,1400,1600,1800,2000,2500,3000,3500,4000,4500]
+    if opts.signal.find("BulkWW")!=-1:
+      masses = [1200,1400,1600,1800,2000,2500,3500,4000,4500]
+
     if signal.find("BulkZZ")!=-1: 
-      masses = [1000,1200,1400,1600,1800,2000,2500,3000,3500,4000]
+      masses = [1200,1400,1600,1800,2000,2500,3000,3500,4000]
 
   
     fout = ['%s/%s/%ssys_HPVV_%s.txt'%(outpath,sys,sys,signal),'%s/%s/%ssys_LPVV_%s.txt'%(outpath,sys,sys,signal),
@@ -119,35 +131,35 @@ def calculateYields(sys):
     debugs = []
 
     debugs.append("VV HP category")
-    cut =  "jet_puppi_softdrop_jet1 > 65 && jet_puppi_softdrop_jet1 < 105 && jet_puppi_softdrop_jet2 > 65 && jet_puppi_softdrop_jet2 < 105 && jet_puppi_tau2tau1_jet1 < 0.4 && jet_puppi_tau2tau1_jet2 < 0.4"
+    cut =  "jet_puppi_softdrop_jet1 > 65 && jet_puppi_softdrop_jet1 < 105 && jet_puppi_softdrop_jet2 > 65 && jet_puppi_softdrop_jet2 < 105 && jet_puppi_tau2tau1_jet1 < 0.35 && jet_puppi_tau2tau1_jet2 < 0.35"
     cuts.append(cut)
 
     debugs.append("VV LP category")
-    cut =  "jet_puppi_softdrop_jet1 > 65 && jet_puppi_softdrop_jet1 < 105 && jet_puppi_softdrop_jet2 > 65 && jet_puppi_softdrop_jet2 < 105 && ((jet_puppi_tau2tau1_jet1 < 0.4 && jet_puppi_tau2tau1_jet2 > 0.4 && jet_puppi_tau2tau1_jet2 < 0.75) || (jet_puppi_tau2tau1_jet2 < 0.4 && jet_puppi_tau2tau1_jet1 > 0.4 && jet_puppi_tau2tau1_jet1 < 0.75))"
+    cut =  "jet_puppi_softdrop_jet1 > 65 && jet_puppi_softdrop_jet1 < 105 && jet_puppi_softdrop_jet2 > 65 && jet_puppi_softdrop_jet2 < 105 && ((jet_puppi_tau2tau1_jet1 < 0.35 && jet_puppi_tau2tau1_jet2 > 0.35 && jet_puppi_tau2tau1_jet2 < 0.75) || (jet_puppi_tau2tau1_jet2 < 0.35 && jet_puppi_tau2tau1_jet1 > 0.35 && jet_puppi_tau2tau1_jet1 < 0.75))"
     cuts.append(cut)
 
     debugs.append("WW HP category")
-    cut =  "jet_puppi_softdrop_jet1 > 65 && jet_puppi_softdrop_jet1 < 85 && jet_puppi_softdrop_jet2 > 65 && jet_puppi_softdrop_jet2 < 85 && jet_puppi_tau2tau1_jet1 < 0.4 && jet_puppi_tau2tau1_jet2 < 0.4"
+    cut =  "jet_puppi_softdrop_jet1 > 65 && jet_puppi_softdrop_jet1 < 85 && jet_puppi_softdrop_jet2 > 65 && jet_puppi_softdrop_jet2 < 85 && jet_puppi_tau2tau1_jet1 < 0.35 && jet_puppi_tau2tau1_jet2 < 0.35"
     cuts.append(cut)
 
     debugs.append("WW LP category")
-    cut =  "jet_puppi_softdrop_jet1 > 65 && jet_puppi_softdrop_jet1 < 85 && jet_puppi_softdrop_jet2 > 65 && jet_puppi_softdrop_jet2 < 85 &&  ((jet_puppi_tau2tau1_jet1 < 0.4 && jet_puppi_tau2tau1_jet2 > 0.4 && jet_puppi_tau2tau1_jet2 < 0.75) || (jet_puppi_tau2tau1_jet2 < 0.4 && jet_puppi_tau2tau1_jet1 > 0.4 && jet_puppi_tau2tau1_jet1 < 0.75))"
+    cut =  "jet_puppi_softdrop_jet1 > 65 && jet_puppi_softdrop_jet1 < 85 && jet_puppi_softdrop_jet2 > 65 && jet_puppi_softdrop_jet2 < 85 &&  ((jet_puppi_tau2tau1_jet1 < 0.35 && jet_puppi_tau2tau1_jet2 > 0.35 && jet_puppi_tau2tau1_jet2 < 0.75) || (jet_puppi_tau2tau1_jet2 < 0.35 && jet_puppi_tau2tau1_jet1 > 0.35 && jet_puppi_tau2tau1_jet1 < 0.75))"
     cuts.append(cut)
 
     debugs.append("WZ HP category")
-    cut =  "((jet_puppi_softdrop_jet1 > 65 && jet_puppi_softdrop_jet1 < 85 && jet_puppi_softdrop_jet2 > 85 && jet_puppi_softdrop_jet2 < 105) || (jet_puppi_softdrop_jet1 > 85 && jet_puppi_softdrop_jet1 < 105 && jet_puppi_softdrop_jet2 > 65 && jet_puppi_softdrop_jet2 < 85)) && jet_puppi_tau2tau1_jet1 < 0.4 && jet_puppi_tau2tau1_jet2 < 0.4"
+    cut =  "((jet_puppi_softdrop_jet1 > 65 && jet_puppi_softdrop_jet1 < 85 && jet_puppi_softdrop_jet2 > 85 && jet_puppi_softdrop_jet2 < 105) || (jet_puppi_softdrop_jet1 > 85 && jet_puppi_softdrop_jet1 < 105 && jet_puppi_softdrop_jet2 > 65 && jet_puppi_softdrop_jet2 < 85)) && jet_puppi_tau2tau1_jet1 < 0.35 && jet_puppi_tau2tau1_jet2 < 0.35"
     cuts.append(cut)
 
     debugs.append("WZ LP category")
-    cut =  "((jet_puppi_softdrop_jet1 > 65 && jet_puppi_softdrop_jet1 < 85 && jet_puppi_softdrop_jet2 > 85 && jet_puppi_softdrop_jet2 < 105) || (jet_puppi_softdrop_jet1 > 85 && jet_puppi_softdrop_jet1 < 105 && jet_puppi_softdrop_jet2 > 65 && jet_puppi_softdrop_jet2 < 85)) &&  ((jet_puppi_tau2tau1_jet1 < 0.4 && jet_puppi_tau2tau1_jet2 > 0.4 && jet_puppi_tau2tau1_jet2 < 0.75) || (jet_puppi_tau2tau1_jet2 < 0.4 && jet_puppi_tau2tau1_jet1 > 0.4 && jet_puppi_tau2tau1_jet1 < 0.75))"
+    cut =  "((jet_puppi_softdrop_jet1 > 65 && jet_puppi_softdrop_jet1 < 85 && jet_puppi_softdrop_jet2 > 85 && jet_puppi_softdrop_jet2 < 105) || (jet_puppi_softdrop_jet1 > 85 && jet_puppi_softdrop_jet1 < 105 && jet_puppi_softdrop_jet2 > 65 && jet_puppi_softdrop_jet2 < 85)) &&  ((jet_puppi_tau2tau1_jet1 < 0.35 && jet_puppi_tau2tau1_jet2 > 0.35 && jet_puppi_tau2tau1_jet2 < 0.75) || (jet_puppi_tau2tau1_jet2 < 0.35 && jet_puppi_tau2tau1_jet1 > 0.35 && jet_puppi_tau2tau1_jet1 < 0.75))"
     cuts.append(cut)
 
     debugs.append("ZZ HP category")
-    cut =  "jet_puppi_softdrop_jet1 > 85 && jet_puppi_softdrop_jet1 < 105 && jet_puppi_softdrop_jet2 > 85 && jet_puppi_softdrop_jet2 < 105 && jet_puppi_tau2tau1_jet1 < 0.4 && jet_puppi_tau2tau1_jet2 < 0.4"
+    cut =  "jet_puppi_softdrop_jet1 > 85 && jet_puppi_softdrop_jet1 < 105 && jet_puppi_softdrop_jet2 > 85 && jet_puppi_softdrop_jet2 < 105 && jet_puppi_tau2tau1_jet1 < 0.35 && jet_puppi_tau2tau1_jet2 < 0.35"
     cuts.append(cut)
 
     debugs.append("ZZ LP category")
-    cut =  "jet_puppi_softdrop_jet1 > 85 && jet_puppi_softdrop_jet1 < 105 && jet_puppi_softdrop_jet2 > 85 && jet_puppi_softdrop_jet2 < 105 && ((jet_puppi_tau2tau1_jet1 < 0.4 && jet_puppi_tau2tau1_jet2 > 0.4 && jet_puppi_tau2tau1_jet2 < 0.75) || (jet_puppi_tau2tau1_jet2 < 0.4 && jet_puppi_tau2tau1_jet1 > 0.4 && jet_puppi_tau2tau1_jet1 < 0.75))"
+    cut =  "jet_puppi_softdrop_jet1 > 85 && jet_puppi_softdrop_jet1 < 105 && jet_puppi_softdrop_jet2 > 85 && jet_puppi_softdrop_jet2 < 105 && ((jet_puppi_tau2tau1_jet1 < 0.35 && jet_puppi_tau2tau1_jet2 > 0.35 && jet_puppi_tau2tau1_jet2 < 0.75) || (jet_puppi_tau2tau1_jet2 < 0.35 && jet_puppi_tau2tau1_jet1 > 0.35 && jet_puppi_tau2tau1_jet1 < 0.75))"
     cuts.append(cut)
     
     for f in range(len(fout)):
@@ -209,6 +221,12 @@ def calculateYields(sys):
          elif sys.find("JMR")!= -1: 
            unc_yield_jmr_up.append(math.fabs(sup*100/cv))
            unc_yield_jmr_down.append(math.fabs(sdown*100/cv))
+         elif sys.find("SCALE")!=-1:
+            unc_yield_scale_up.append(math.fabs(sup*100/cv))
+            unc_yield_scale_down.append(math.fabs(sdown*100/cv))  
+         elif sys.find("RES")!=-1:  
+            unc_yield_res_up.append(math.fabs(sup*100/cv))  
+            unc_yield_res_down.append(math.fabs(sdown*100/cv))    
            
        else:
          if sys.find("JES")!= -1: 
@@ -223,6 +241,12 @@ def calculateYields(sys):
          elif sys.find("JMR")!= -1: 
            unc_migration_jmr_up.append(math.fabs(sup*100/cv))
            unc_migration_jmr_down.append(math.fabs(sdown*100/cv))
+         elif sys.find("SCALE")!=-1:
+            unc_migration_scale_up.append(math.fabs(sup*100/cv))
+            unc_migration_scale_down.append(math.fabs(sdown*100/cv))  
+         elif sys.find("RES")!=-1:
+            unc_migration_res_up.append(math.fabs(sup*100/cv))
+            unc_migration_res_down.append(math.fabs(sdown*100/cv))  
            
        print '%s_M%i %.3f %.3f\n' %(signal,mass,sup*100/cv,sdown*100/cv)
        outfile.write('%s_M%i %.3f %.3f\n' %(signal,mass,sup*100/cv,sdown*100/cv))
@@ -245,8 +269,8 @@ if __name__ == '__main__':
     print "This systematic does not exist! Check spelling"
     
   #Compute central value. Neccessary first time you run
-  if opts.doCV:  
-    doSys.append('CV')
+  #if opts.doCV:  
+    #doSys.append('CV')
     
   print "Doing systematics for: " ,doSys
   
@@ -259,8 +283,8 @@ if __name__ == '__main__':
   # runMultiprocess(doSys,opts.channel)
   #
   #======================= Calculate yields ========================================================================================================
-  if opts.sys == 'ALL':
-    systematics = ['JES','JER']#,'JMS','JMR']
+  if opts.sys == 'ALL':                 
+    systematics = ['JMS','JMR',"JER","JES","SCALE","RES"]#["SCALE","RES"]##['JES','JER']#,'JMS','JMR']
     for s in systematics:
       calculateYields(s)
   else:
@@ -276,14 +300,26 @@ if __name__ == '__main__':
   unc_migration_jms_up.sort();     unc_migration_jms_down.sort()
   unc_migration_jmr_up.sort();     unc_migration_jmr_down.sort()
   
+  unc_yield_res_down.sort(); unc_yield_res_up.sort();unc_yield_scale_down.sort();unc_yield_scale_up.sort();
+  unc_migration_res_down.sort(); unc_migration_res_up.sort();unc_migration_scale_down.sort();unc_migration_scale_up.sort();
+  
 
   print "                  UP            DOWN"
   print "               min/max        min/max"
   print "yield_jes     %.6f/%.6f      %.6f/%.6f" %(unc_yield_jes_up[0],unc_yield_jes_up[-1], unc_yield_jes_down[0], unc_yield_jes_down[-1])
   print "yield_jer     %.6f/%.6f      %.6f/%.6f" %(unc_yield_jer_up[0],unc_yield_jer_up[-1], unc_yield_jer_down[0], unc_yield_jer_down[-1])
-  #print "yield_jms     %.6f/%.6f      %.6f/%.6f" %(unc_yield_jms_up[0],unc_yield_jms_up[-1], unc_yield_jms_down[0], unc_yield_jms_down[-1])
-  #print "yield_jmr     %.6f/%.6f      %.6f/%.6f" %(unc_yield_jmr_up[0],unc_yield_jmr_up[-1], unc_yield_jmr_down[0], unc_yield_jmr_down[-1])
+  
+  print "yield_jms     %.6f/%.6f      %.6f/%.6f" %(unc_yield_jms_up[0],unc_yield_jms_up[-1], unc_yield_jms_down[0], unc_yield_jms_down[-1])
+  print "yield_jmr     %.6f/%.6f      %.6f/%.6f" %(unc_yield_jmr_up[0],unc_yield_jmr_up[-1], unc_yield_jmr_down[0], unc_yield_jmr_down[-1])
+  
+  print "yield_scale     %.6f/%.6f      %.6f/%.6f" %(unc_yield_scale_up[0],unc_yield_scale_up[-1], unc_yield_scale_down[0], unc_yield_scale_down[-1])
+  print "yield_res     %.6f/%.6f      %.6f/%.6f" %(unc_yield_res_up[0],unc_yield_res_up[-1], unc_yield_res_down[0], unc_yield_res_down[-1])
+  
   print "migration_jes %.6f/%.6f      %.6f/%.6f" %(unc_migration_jes_up[0],unc_migration_jes_up[-1], unc_migration_jes_down[0], unc_migration_jes_down[-1])
   print "migration_jer %.6f/%.6f      %.6f/%.6f" %(unc_migration_jer_up[0],unc_migration_jer_up[-1], unc_migration_jer_down[0], unc_migration_jer_down[-1])
-  #print "migration_jms %.6f/%.6f      %.6f/%.6f" %(unc_migration_jms_up[0],unc_migration_jms_up[-1], unc_migration_jms_down[0], unc_migration_jms_down[-1])
-  #print "migration_jmr %.6f/%.6f      %.6f/%.6f" %(unc_migration_jmr_up[0],unc_migration_jmr_up[-1], unc_migration_jmr_down[0], unc_migration_jmr_down[-1])
+  
+  print "migration_jms %.6f/%.6f      %.6f/%.6f" %(unc_migration_jms_up[0],unc_migration_jms_up[-1], unc_migration_jms_down[0], unc_migration_jms_down[-1])
+  print "migration_jmr %.6f/%.6f      %.6f/%.6f" %(unc_migration_jmr_up[0],unc_migration_jmr_up[-1], unc_migration_jmr_down[0], unc_migration_jmr_down[-1])
+  
+  print "migration_scale %.6f/%.6f      %.6f/%.6f" %(unc_migration_scale_up[0],unc_migration_scale_up[-1], unc_migration_scale_down[0], unc_migration_scale_down[-1])
+  print "migration_res  %.6f/%.6f      %.6f/%.6f" %(unc_migration_res_up[0],unc_migration_res_up[-1], unc_migration_res_down[0], unc_migration_res_down[-1])
