@@ -17,6 +17,7 @@ double LumiWeight::getLumiWeight( TString sample ){
 
   xSec_ = 1.;
   genEvents_ = 1.;
+	
   
   if( sample.Contains( "Fall15" ) ){
     //single top samples
@@ -1058,7 +1059,7 @@ double LumiWeight::getLumiWeight( TString sample ){
       xSec_ = 0.000165445; //OK
       genEvents_ = 382520;
     }
-     
+    
   }
   else if( sample.Contains( "QstarToQW_M_1000" ) ){
       xSec_ = 1.;
@@ -1212,7 +1213,9 @@ double LumiWeight::getLumiWeight( TString sample ){
       xSec_ = 1.;
       genEvents_ =32999.;
       } 
-  else if (sample.Contains("Summer16") ) {
+  
+  if (sample.Contains("Summer16") ) {
+  
 //     if( sample.Contains( "ST_t-channel_top" ) ){
 //       xSec_ = 136.02*0.3272;
 //       genEvents_ = 3299800.;
@@ -1301,63 +1304,122 @@ double LumiWeight::getLumiWeight( TString sample ){
 //       xSec_ = 1.21*0.03216;//47.9;
 //       genEvents_ = 253036.;
 //     } 
-//     else if( sample.Contains( "WJetsToLNu_HT-600ToInf" ) ){
-//       xSec_ = 1.21*18.77;//19.9;
-//       genEvents_ = 1039152.;
-//     } 
+      //std::cout << sample << std::endl;
+    if( sample.Contains( "WJetsToQQ_HT" ) ){
+       xSec_ = 95.14;
+       genEvents_ = 1026587.;
+       //std::cout << "gets to WJetsToQQ_HT" << std::endl;
+     } 
 //     else if( sample.Contains( "_DYJetsToLL_" ) && sample.Contains("-madgraphMLM-")){
 //       xSec_ = 4895.0;
 //       genEvents_ = 9042031.;
 //     }
+      //std::cout << "summer16"<<std::endl;
+      
+      //QCD_Pt_1000to1400_TuneCUETP8M1_13TeV_pythia8/QCD_Pt_1000to1400_TuneCUETP8M1_13TeV_pythia820170203_QCD/170203_134720/0000/flatTuple_1.root
     if( sample.Contains( "QCD_Pt_170to300_" ) ){
       xSec_ = 117276.;     //                    \\ should have in v1:  6958708 & 117276          do have:    6596736
       // genEvents_ = 3364368.;                \\ should have in ext-v1:  7838066 & 117276       do have:     7508444
-      genEvents_ = 14105180; //OK!!!            \\ -> all pythia samples
+      genEvents_ = 6958708; //OK!!!            \\ -> all pythia samples
     }
-    else if( sample.Contains( "QCD_Pt_300to470_" ) ){
-      xSec_ = 7823.; //OK                      \\ should have in v1:    18253032 &7823        do have:      4150584
+    
+    if( sample.Contains( "QCD_Pt_170to300_" ) and  sample.Contains( "ext")){
+      xSec_ = 117276.;     //                    \\ should have in v1:  6958708 & 117276          do have:    6596736
+      // genEvents_ = 3364368.;                \\ should have in ext-v1:  7838066 & 117276       do have:     7508444
+      genEvents_ = 7838066; //OK!!!            \\ -> all pythia samples
+    }
+    if( sample.Contains( "QCD_Pt_300to470_" ) ){
+	xSec_ = 7823.; //OK                      \\ should have in v1:    18253032 &7823        do have:      4150584
       // genEvents_ = 2933611.;                \\ should have in ext-v1: 4150588 & 7823        do have:      15647833
-      genEvents_ = 19798417; //OK!              \\ -> all pythia samples
+      genEvents_ = 4150384; //OK!              \\ -> all pythia samples
     }
-    else if( sample.Contains( "QCD_Pt_470to600_" ) ){
+    if( sample.Contains( "QCD_Pt_300to470_" ) and  sample.Contains( "ext")){
+	xSec_ = 7823.; //OK                      \\ should have in v1:    18253032 &7823        do have:      4150584
+      // genEvents_ = 2933611.;                \\ should have in ext-v1: 4150588 & 7823        do have:      15647833
+      genEvents_ = 18253016; //OK!              \\ -> all pythia samples
+    }
+    if( sample.Contains( "QCD_Pt_470to600_" ) ){
       xSec_ = 648.2; //OK                        \\ should have in v1:   3959986 & 648.2         do have:  3959966
       // genEvents_ = 1936832.;                  \\ should have in ext-v1: 15458074 & 648.2       do have:  not existing
       genEvents_ = 3959966;   //OK!!             \\ -> all pythia samples
     }
-    else if( sample.Contains( "QCD_Pt_600to800_" ) ){
+    if( sample.Contains( "QCD_Pt_470to600_" ) and  sample.Contains( "ext")){
+      xSec_ = 648.2; //OK                        \\ should have in v1:   3959986 & 648.2         do have:  3959966
+      // genEvents_ = 1936832.;                  \\ should have in ext-v1: 15458074 & 648.2       do have:  not existing
+      genEvents_ = 15458013;   //OK!!             \\ -> all pythia samples
+    }
+    if( sample.Contains( "QCD_Pt_600to800_" ) ){
       xSec_ = 186.9; //OK                          \\ should have in v1:  3896412 & 186.9          do have:    3730760
       // genEvents_ = 1964128.;                    \\ should have in ext-v1: 9622896 & 186.9       do have:    9539427
-      genEvents_ = 13270187; //OK!                  \\ -> all pythia samples
+      genEvents_ = 3896387; //OK!   !!               \\ -> all pythia samples
      
     }
-    else if( sample.Contains( "QCD_Pt_800to1000_" ) ){
+    
+    if( sample.Contains( "QCD_Pt_600to800_" ) and  sample.Contains( "ext") ){
+      xSec_ = 186.9; //OK                          \\ should have in v1:  3896412 & 186.9          do have:    3730760
+      // genEvents_ = 1964128.;                    \\ should have in ext-v1: 9622896 & 186.9       do have:    9539427
+      genEvents_ = 8709857; //OK!         !!         \\ -> all pythia samples
+     
+    }
+    if( sample.Contains( "QCD_Pt_800to1000_" ) ){
       xSec_ = 32.293; //OK                               \\ should have in v1: 3992112 & 32.293         do have:   3651423
       // genEvents_ = 1937216.;                          \\  should have in ext-v1: 15704980 & 32.293   do have:   15623555
-      genEvents_ = 19274978; //OK!                       \\ -> all 800to1000 pythia samples   3651423+15623555
-    
+      genEvents_ = 3229334; //OK!    !!                   \\ -> all 800to1000 pythia samples   3651423+15623555
     }
-     else if( sample.Contains( "QCD_Pt_1000to1400_" ) ){
+    if( sample.Contains( "QCD_Pt_800to1000_" ) and  sample.Contains( "ext")){
+      xSec_ = 32.293; //OK                               \\ should have in v1: 3992112 & 32.293         do have:   3651423
+      // genEvents_ = 1937216.;                          \\  should have in ext-v1: 15704980 & 32.293   do have:   15623555
+      genEvents_ = 15704707; //OK!                       \\ -> all 800to1000 pythia samples   3651423+15623555
+    }
+    if( sample.Contains( "QCD_Pt_1000to1400_" ) ){
+
        xSec_ = 9.4183; //OK                        \\ should have in v1: 2999069 & 9.4183         do have:   2998947
        // genEvents_ = 1487136.;                   \\  should have in ext-v1: 6982586 &9.4183     do have:   6511034
-       genEvents_ = 9509981;   //OK!               \\ -> all pythia samples
+       genEvents_ = 2998947;   //OK! !              \\ -> all pythia samples
     }  
-    else if( sample.Contains( "QCD_Pt_1400to1800_" ) ){
+    if( sample.Contains( "QCD_Pt_1000to1400_" ) and  sample.Contains( "ext")){
+       xSec_ = 9.4183; //OK                        \\ should have in v1: 2999069 & 9.4183         do have:   2998947
+       // genEvents_ = 1487136.;                   \\  should have in ext-v1: 6982586 &9.4183     do have:   6511034
+       genEvents_ = 6982323;   //OK!               \\ -> all pythia samples
+    }  
+    if( sample.Contains( "QCD_Pt_1400to1800_" ) ){
       xSec_ = 0.84265; //OK                       \\ should have in v1: 396409 & 0.84265            do have:   396364   
       // genEvents_ = 197959.;                    \\  should have in ext-v1: 2477018  & 0.84265     do have:   2416320
-      genEvents_ = 2812684;   //OK!!               \\ -> all pythia samples
+      genEvents_ = 396364;   //OK!!               \\ -> all pythia samples 396364
     }
-    else if( sample.Contains( "QCD_Pt_1800to2400_" ) ){
+    if( sample.Contains( "QCD_Pt_1400to1800_" )and  sample.Contains( "ext") ){
+      xSec_ = 0.84265; //OK                       \\ should have in v1: 396409 & 0.84265            do have:   396364   
+      // genEvents_ = 197959.;                    \\  should have in ext-v1: 2477018  & 0.84265     do have:   2416320
+      genEvents_ = 2476814;   //OK!!               \\ -> all pythia samples
+    }
+    if( sample.Contains( "QCD_Pt_1800to2400_" ) ){
       xSec_ = 0.114943; //OK                       \\ should have in v1:  397660 & 0.114943          do have: 397595     
       // genEvents_ = 193608.;                     \\ should have in ext-v1: 1552064 & 0.114943       do have: 1551842  
-      genEvents_ = 1949437;    //OK!!!!             \\ -> all pythia samples                   397595+1551842
+      genEvents_ = 397695;    //OK!!!!             \\ -> all pythia samples                   397595+1551842
     
     }
-    else if( sample.Contains( "QCD_Pt_2400to3200_" ) ){
+    if( sample.Contains( "QCD_Pt_1800to2400_" ) and  sample.Contains( "ext")){
+      xSec_ = 0.114943; //OK                       \\ should have in v1:  397660 & 0.114943          do have: 397595     
+      // genEvents_ = 193608.;                     \\ should have in ext-v1: 1552064 & 0.114943       do have: 1551842  
+      genEvents_ = 1551842;    //OK!!!!             \\ -> all pythia samples                   397595+1551842
+    }
+    if( sample.Contains( "QCD_Pt_2400to3200_" ) ){
       xSec_ = 0.006830; //OK                       \\ should have in v1:    399226 & 0.00682981        do have:  399131
                                                  // \\ should have in ext-v1: 596904 & 0.00682981       do have: 596747
-      genEvents_ = 995878.;   //OK!!!!             \\ -> all pythia samples          399131+596747
+      genEvents_ = 399131;   //OK!!!!             \\ -> all pythia samples          399131+596747
     }
-    else if( sample.Contains( "QCD_Pt_3200toInf_" ) ){
+    if( sample.Contains( "QCD_Pt_2400to3200_" ) and  sample.Contains("ext")){
+      xSec_ = 0.006830; //OK                       \\ should have in v1:    399226 & 0.00682981        do have:  399131
+                                                 // \\ should have in ext-v1: 596904 & 0.00682981       do have: 596747
+      genEvents_ = 595973;   //OK!!!!             \\ -> all pythia samples          399131+596747
+    }
+    
+    if( sample.Contains( "QCD_Pt_3200toInf_" ) ){
+      xSec_ = 0.000165445; //OK                    \\ should have in v1:   391735 & 0.000165445         do have:  391583
+      // genEvents_ = 192944.;                     \\ should have in ext-v1:        do have: 
+      genEvents_ = 391583;   //ok!                 \\ -> all pythia samples
+    }
+    if( sample.Contains( "QCD_Pt_3200toInf_" ) and  sample.Contains("ext")){
       xSec_ = 0.000165445; //OK                    \\ should have in v1:   391735 & 0.000165445         do have:  391583
       // genEvents_ = 192944.;                     \\ should have in ext-v1:        do have: 
       genEvents_ = 391583;   //ok!                 \\ -> all pythia samples
@@ -1372,75 +1434,84 @@ double LumiWeight::getLumiWeight( TString sample ){
 //          xSec_ = 5.670000;                          \\ should have in ext-v1:        do have: 
 //       genEvents_ = 982095.;                         \\ -> all pythia samples
 //     }
-     else if( sample.Contains( "QCD_HT100to200" ) ){
+     if( sample.Contains( "QCD_HT100to200" ) ){
        xSec_ = 2.785e07;
-       genEvents_ = 64946232.;
+       genEvents_ = 51960247.;
      }
 
-     else if( sample.Contains( "QCD_HT200to300" ) ){
+     if( sample.Contains( "QCD_HT200to300" ) ){
        xSec_ = 1717000.;
-       genEvents_ = (15905943.);
+       genEvents_ = (18722416.);
      }
-     else if( sample.Contains( "QCD_HT200to300" ) and  sample.Contains( "ext")){
+     if( sample.Contains( "QCD_HT200to300" ) and  sample.Contains( "ext")){
        xSec_ = 1717000.;
        genEvents_ = (38857975.);
      }
-     else if( sample.Contains( "QCD_HT300to500" ) ){
+     if( sample.Contains( "QCD_HT300to500" ) ){
        xSec_ = 351300.0;
-       genEvents_ = (15342964.);
+       genEvents_ = (17035890.);
      }
-     else if( sample.Contains( "QCD_HT300to500" ) and sample.Contains( "ext" ) )
+     if( sample.Contains( "QCD_HT300to500" ) and sample.Contains( "ext" ) ) 
      {
          xSec_ = 351300.0;
-       genEvents_ = ( 37200176.);
+       genEvents_ = ( 37502011.);
      }
-     else if( sample.Contains( "QCD_HT500to700" ) ){
+     if( sample.Contains( "QCD_HT500to700" ) ){
        xSec_ = 31630.;
-       genEvents_ = (17708091.0);
+       genEvents_ = (18929948.0);
      }
-     else if( sample.Contains( "QCD_HT500to700" ) and sample.Contains( "ext" ) )
+     if( sample.Contains( "QCD_HT500to700" ) and sample.Contains( "ext" ) )
      {
        xSec_ = 31630.;
-       genEvents_ = (35112474.0);  
+       genEvents_ = (43170745.0);  
      }
-     else if( sample.Contains( "QCD_HT700to1000" ) ){
+     if( sample.Contains( "QCD_HT700to1000" ) ){
        xSec_ = 6802.;
-       genEvents_ = (14857714.);
+       genEvents_ = (15629236.);
      }
-     else if( sample.Contains( "QCD_HT700to1000" ) and sample.Contains( "ext" )){
+     if( sample.Contains( "QCD_HT700to1000" ) and sample.Contains( "ext" )){
          xSec_ = 6802.;
-       genEvents_ = (29338024.);
+       genEvents_ = (29783497.);
      }
-     else if( sample.Contains( "QCD_HT1000to1500" ) ){
+     if( sample.Contains( "QCD_HT1000to1500" ) ){
        xSec_ = 1206.0;
        genEvents_ = (4767084.);
      } 
      else if( sample.Contains( "QCD_HT1000to1500" )  and sample.Contains( "ext" )){
          xSec_ = 1206.0;
-       genEvents_ = ( 10049239.);
+       genEvents_ = ( 10360159.);
      }
-     else if( sample.Contains( "QCD_HT1500to2000" ) ){
+     if( sample.Contains( "QCD_HT1500to2000" ) ){
        xSec_ = 120.4;
        genEvents_ = ( 3970787.);
      }
-     else if( sample.Contains( "QCD_HT1500to2000" )  and sample.Contains( "ext" )){
+     if( sample.Contains( "QCD_HT1500to2000" )  and sample.Contains( "ext" )){
        xSec_ = 120.4;
        genEvents_ = (7855817.); 
      }
-     else if( sample.Contains( "QCD_HT2000toInf" ) ){
+     if( sample.Contains( "QCD_HT2000toInf" ) ){
        xSec_ = 25.25;
        genEvents_ = 1991583.;
+     }    
+     if( sample.Contains( "QCD_HT2000toInf" ) and sample.Contains( "ext" ) ){
+       xSec_ = 25.25;
+       genEvents_ = 4047228.;
      }    
       
    if( sample.Contains( "QCD_Pt-15to7000" ) or sample.Contains( "QCD_Pt_15to7000" )){
       xSec_ =  2.022100000e+09;//3.095141e+09;
-      genEvents_ = 8093024.;//259420.;
+      genEvents_ = 9936472.;//259420.;
     }   
-      
+    
   
 }
-  
-  // std::cout<< "Crosssection = " << xSec_ << "genEvents = " << genEvents_ << "Weight = " << xSec_/genEvents_ <<std::endl;
+  if( sample.Contains("BulkGrav") or sample.Contains("Qstar") or sample.Contains("Wprime") or sample.Contains("Zprime"))
+  {
+    xSec_ = 1.;
+    genEvents_ = 30000.; 
+    //std::cout << "gest to signal lumi " << std::endl;
+  }
+  //std::cout<< "Crosssection = " << xSec_ << "genEvents = " << genEvents_ << "Weight = " << xSec_/genEvents_ <<std::endl;
   return xSec_/genEvents_;
 
       

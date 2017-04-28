@@ -143,8 +143,6 @@ parser.add_option('--outdir',action='store',type='string',dest='outdir',default=
 
 tdrstyle.setTDRStyle()
 
-lumi = 166.37 
-
 rebin = options.rebin
 directory = '../../AnalysisOutput/80X/'
 #fmc = TFile.Open(directory+options.mc,'READ')
@@ -155,7 +153,7 @@ JSONfullpromtreco = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisi
 PUJSONfullpromtreco= '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/PileUp/pileup_latest.txt'
 outfilename = options.outdir+options.data
 
-lumi = 36.8 #fb^-1
+lumi = 35.9 #fb^-1
 
 
 if __name__=='__main__':
@@ -393,6 +391,7 @@ if __name__=='__main__':
     
     nPUVtx_data            .SetTitle('Number of Vertices')
     nPUVtxTrue_data        .SetTitle('True Number of Vertices')
+    nPUVtxTrue_data        .GetXaxis().SetTitle("number of vertices")
     nPUVtx_afterPresel_data.SetTitle('Number of Vertices after preselections')
     
     nPUVtx_data            .GetYaxis().SetTitle('# events normalized')

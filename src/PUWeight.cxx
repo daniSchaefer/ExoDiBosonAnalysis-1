@@ -12,6 +12,7 @@ PUWeight::Scenario PUWeight::toScenario(const std::string& str) {
   else if( str == "PUS25ns76X" )sc = Fall15_25ns;
   else if( str == "PUS25ns80X" )sc = Spring16_25ns;
   else if( str == "PUS25ns80X_full2016")sc = Summer16_25ns;
+  else if( str == "PU25ns80X_flatPU") sc = Summer16_25ns_FlatPU;
   else {
     std::cerr << "\n\nERROR unknown scenario '" << str << "'" << std::endl;
     throw std::exception();
@@ -28,6 +29,7 @@ std::string PUWeight::toString(const PUWeight::Scenario sc) {
   else if( sc == Fall15_25ns  ) str = "PUS25ns76X";
   else if( sc == Spring16_25ns) str = "PUS25ns80X";
   else if( sc == Summer16_25ns) str = "PUS25ns80X_full2016";
+  else if( sc == Summer16_25ns_FlatPU) str = "PUS25ns80X_flatPU";
   else {
     std::cerr << "\n\nERROR unknown scenario '" << sc << "'" << std::endl;
     throw std::exception();
@@ -401,6 +403,88 @@ std::vector<double> PUWeight::generateWeights(const PUWeight::Scenario sc, const
         3.35604255462e-05,                //    0.0143332850005,
         0.0,                              //      0.0142584673357,
         0.0                               //      0.0142676158944        
+            };   
+            
+          npuProbs = npuSummer16_25ns;
+          std::cout<<"npuSummer16_25ns[0] = " << npuSummer16_25ns[0] <<"    npuProbs[0] = "<<npuProbs[0]<<std::endl;
+        } 
+        
+        else if( sc == Summer16_25ns_FlatPU ) {   //from https://github.com/cms-sw/cmssw/blob/CMSSW_8_1_X/SimGeneral/MixingModule/python/mix_2016_25ns_SpringMC_PUScenarioV1_PoissonOOTPU_cfi.py
+        std::cout<<"IN SUMMER 16 with Flat PU!!!!"<<std::endl;
+  
+        nPUMax = 70;
+        double npuSummer16_25ns[70] = {
+        //Moriond17 PU                    // QCD sample with flat PU
+             0.0142735060623,                                                                                                                                                                
+             0.014285787689,                                                                                                                                                                
+           0.0142411728001,                                                                                                                                                                
+           0.014356469704,                                                                                                                                                                
+           0.0142649841172,                                                                                                                                                                
+           0.0143162411104,                                                                                                                                                                
+           0.0143540885723,                                                                                                                                                                
+           0.0142439299,                                                                                                                                                                
+          0.0142980693157,                                                                                                                                                                
+          0.0142703729943,                                                                                                                                                                
+          0.0142399195729,                                                                                                                                                                
+         0.0141889132252,                                                                                                                                                                
+         0.0142453084499,                                                                                                                                                                
+         0.0143816595711,                                                                                                                                                                
+         0.0142760125167,                                                                                                                                                                
+        0.0142380397321,                                                                                                                                                                
+         0.0143133586878,                                                                                                                                                                
+        0.0143176196603,                                                                                                                                                                
+         0.014341180332,                                                                                                                                                                
+         0.0142579660448,                                                                                                                                                                
+         0.0142819026847,                                                                                                                                                                
+         0.0142411728001,
+         0.0142587179811,
+       0.0143095990061,
+         0.0143014530292,
+        0.0143183715967,
+         0.0143133586878,
+         0.0143504542134,
+         0.0142935576978,
+         0.0142865396254,
+         0.0142930564069,
+         0.0143429348501,
+         0.0142489428089,
+         0.0142928057614,
+         0.0143350395186,
+        0.0143033328701,
+         0.0143127320742,
+         0.0143696285898,
+         0.0142715008988,
+          0.0142446818363,
+          0.0142406715092,
+          0.0142011948519,
+          0.014225006169,
+          0.0143401777502,
+          0.0142330268232,
+          0.0142867902708,
+          0.0143017036747,
+          0.0141757543394,
+         0.0142978186703,
+          0.0142339040822,
+          0.0142657360536,
+          0.0142783936484,
+          0.0142594699175,
+          0.0142524518451,
+           0.0142866649481,
+           0.0143671221354,
+           0.0143183715967,
+          0.0142243795554,
+           0.0143257656372,
+             0.0142424260273,
+           0.0142030746927,
+           0.0142689944443,
+              0.0142762631622,
+           0.0143499529225,
+              0.0143098496516,
+             0.0144071000836,
+              0.0142941843114,
+           0.0143332850005,
+             0.0142584673357,
+             0.0142676158944        
             };   
             
           npuProbs = npuSummer16_25ns;

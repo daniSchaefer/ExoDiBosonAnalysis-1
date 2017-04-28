@@ -20,7 +20,8 @@ HistosManager::~HistosManager( void ){
 
 ////////////////////////////////////////////////////////////////////
 void HistosManager::bookHistos( std::string Channel_ ){
-  
+  theAnalysis_->Book( TH1F( "gen_COS_Theta1"           , "cos(theta1) ", 100	, -1.	, 1.	) );  
+  theAnalysis_->Book( TH1F( "Mjj_allHadGen"           , "m_jj_allHadronicGen", 1000	, 0.	, 7000.	) );  
   theAnalysis_->Book( TH1F( "PrunedMass_200GeV"       ,   "PrunedMass_200GeV"       , 200, 0, 200 ) );
   theAnalysis_->Book( TH1F( "PuppiPrunedMass_200GeV"  ,   "PuppiPrunedMass_200GeV"  , 200, 0, 200 ) );
   theAnalysis_->Book( TH1F( "PuppiSoftdropMass_200GeV",   "PuppiSoftdropMass_200GeV", 200, 0, 200 ) );
@@ -45,6 +46,7 @@ void HistosManager::bookHistos( std::string Channel_ ){
  theAnalysis_->Book( TH1F( "JetPt_preSmearing", "JetPt_preSmearing"      , 200, 0, 2000 ) );
  theAnalysis_->Book( TH1F( "JetPt_postSmearing","JetPt_postSmearing"     , 200, 0, 2000 ) );
  
+ 
  theAnalysis_->Book( TH1F( "runNumber", "run number"       , 1000, 251000, 252000 ) );
  theAnalysis_->Book( TH1F( "nVertices", "number of PVs"    ,  50, 0. ,  50. ) );
  theAnalysis_->Book( TH1F( "Rho", "Rho"    ,  60, 0. ,  30. ) );
@@ -52,6 +54,8 @@ void HistosManager::bookHistos( std::string Channel_ ){
  theAnalysis_->Book( TH1F( "sumGenWeight"                  , "sumGenWeight", 1	, 0.5, 1.5		) );
  
  if( Channel_.find("VVdijet")!=std::string::npos || Channel_.find("qVdijet")!=std::string::npos ){
+   
+     
    theAnalysis_->Book( TH1F( "Mjj_genMatched"           , "M_{jj} ", 7000	, 0.	, 7000.	) );
    
    // theAnalysis_->Book( TH2F( "prunedJECvsPT" , "Pruned JEC vs. p_{T}" , 23  , 0.  , 2300., 40, 0.,2.  ) );

@@ -2,111 +2,117 @@
 <!DOCTYPE JobConfiguration PUBLIC "" "JobConfig.dtd">
 <JobConfiguration JobName="exovvJob" OutputLevel="INFO">
   <Library Name="libGoodRunsLists" />
+  <Library Name="libLHAPDF"/>
   <Library Name="libExoDiBosonAnalysis" />
 
   <Package Name="SFrameCore.par" />
   <Package Name="ExoDiBosonAnalysis.par" />
       
   <Cycle Name="ExoDiBosonAnalysis" OutputDirectory="../AnalysisOutput/80X/" PostFix="" ProofServer="lite" ProofWorkDir="" RunMode="LOCAL" TargetLumi="1.0">
+      
+      
+      
 
-    <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQW_13TeV_1000GeV">
+ <!--
+      <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQW_13TeV_1000GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQW_M_1000_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQW_M_1000_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQW_M_1000_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQW_M_1000_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_2.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
+      </InputData> 
     
     
-    <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQW_13TeV_1200GeV">
+   <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQW_13TeV_1200GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQW_M_1200_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQW_M_1200_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
+    </InputData>  
     
-    
+  -->
+      <!--
     <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQW_13TeV_1400GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQW_M_1400_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQW_M_1400_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
-    
-    
+    </InputData>  
+      
+     
     <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQW_13TeV_1600GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQW_M_1600_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQW_M_1600_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
+    </InputData> 
     
-    
+   
     <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQW_13TeV_1800GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQW_M_1800_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQW_M_1800_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
     </InputData>
-    
-    
+   
+      
     <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQW_13TeV_2000GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQW_M_2000_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQW_M_2000_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
+    </InputData>  
     
-    
+   
+     
     <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQW_13TeV_2500GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQW_M_2500_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQW_M_2500_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
     </InputData>
     
-    
+     
     <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQW_13TeV_3000GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQW_M_3000_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQW_M_3000_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
-    
+    </InputData>  
     
     <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQW_13TeV_3500GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQW_M_3500_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQW_M_3500_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
-    
-    
+      </InputData>
+   
+     
     <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQW_13TeV_4000GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQW_M_4000_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQW_M_4000_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
-    
+    </InputData> 
+
     
     <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQW_13TeV_4500GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQW_M_4500_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQW_M_4500_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
-    
-    
+    </InputData> 
+     
+       
     <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQW_13TeV_5000GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQW_M_5000_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQW_M_5000_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
-    
-    
-    <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQW_13TeV_5500GeV">
+      </InputData> 
+    -->
+   
+  <!--  <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQW_13TeV_5500GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQW_M_5500_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQW_M_5500_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
+      </InputData> -->
     
-    
+     <!--
     <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQW_13TeV_6000GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQW_M_6000_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQW_M_6000_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
-    
+    </InputData>-->
+   <!--
     
     <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQW_13TeV_600GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQW_M_600_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQW_M_600_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
@@ -119,51 +125,52 @@
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQW_M_6500_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQW_M_6500_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
+      </InputData> 
     
-    
+   
     <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQW_13TeV_7000GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQW_M_7000_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQW_M_7000_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
+      </InputData> -->
     
-    
+   <!-- 
     <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQW_13TeV_7500GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQW_M_7500_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQW_M_7500_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
+    </InputData> 
     
-    
+   
     <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQW_13TeV_800GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQW_M_800_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQW_M_800_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
+    </InputData> -->
     
-    
+  
+  <!--    
     <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQZ_13TeV_1000GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQZ_M_1000_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQZ_M_1000_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
+      </InputData> -->
     
-    
+    <!--
     <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQZ_13TeV_1200GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQZ_M_1200_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQZ_M_1200_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
+      </InputData> -->
     
     
-    <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQZ_13TeV_1400GeV">
+    <!--<InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQZ_13TeV_1400GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQZ_M_1400_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQZ_M_1400_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
+    </InputData>-->
     
-    
+    <!--
     <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQZ_13TeV_1600GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQZ_M_1600_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQZ_M_1600_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
@@ -175,14 +182,14 @@
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQZ_M_1800_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQZ_M_1800_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
+      </InputData> -->
     
     
-    <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQZ_13TeV_2000GeV">
+    <!--<InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQZ_13TeV_2000GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQZ_M_2000_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQZ_M_2000_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
+    </InputData>-->
     
     
     <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQZ_13TeV_2500GeV">
@@ -190,90 +197,90 @@
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
     </InputData>
+   
     
-    
-    <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQZ_13TeV_3000GeV">
+   <!-- <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQZ_13TeV_3000GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQZ_M_3000_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQZ_M_3000_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
+    </InputData>-->
     
-    
+   <!-- 
     <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQZ_13TeV_3500GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQZ_M_3500_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQZ_M_3500_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
+    </InputData>-->
     
-    
-    <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQZ_13TeV_4000GeV">
+     
+   <!-- <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQZ_13TeV_4000GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQZ_M_4000_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQZ_M_4000_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
+    </InputData>-->
     
-    
+   <!-- 
     <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQZ_13TeV_4500GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQZ_M_4500_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQZ_M_4500_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
+    </InputData>-->
     
-    
-    <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQZ_13TeV_5000GeV">
+   
+   <!-- <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQZ_13TeV_5000GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQZ_M_5000_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQZ_M_5000_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
+    </InputData>   -->
+     
     
-    
-    <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQZ_13TeV_5500GeV">
+   <!-- <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQZ_13TeV_5500GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQZ_M_5500_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQZ_M_5500_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
+    </InputData>-->
     
     
-    <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQZ_13TeV_6000GeV">
+   <!-- <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQZ_13TeV_6000GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQZ_M_6000_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQZ_M_6000_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
     </InputData>
-    
-    
+    -->
+    <!--
     <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQZ_13TeV_600GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQZ_M_600_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQZ_M_600_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
+      </InputData> -->
     
-    
+   <!-- 
     <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQZ_13TeV_6500GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQZ_M_6500_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQZ_M_6500_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
+    </InputData>-->
     
-    
-    <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQZ_13TeV_7000GeV">
+   
+   <!-- <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQZ_13TeV_7000GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQZ_M_7000_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQZ_M_7000_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
+    </InputData>-->
     
     
-    <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQZ_13TeV_7500GeV">
+   <!-- <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQZ_13TeV_7500GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQZ_M_7500_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQZ_M_7500_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
+    </InputData>-->
     
-    
+ <!--    
     <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="qV" Type="QstarQZ_13TeV_800GeV">
       <In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/QstarToQZ_M_800_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM/EXOVVTree_QstarToQZ_M_800_TuneCUETP8M1_13TeV_pythia8_GEN-SIM_DIGI80X_RECO80X_MiniAODv2_80X_MiniAODv2_PUSpring16RAWAODSIM_1.root" Lumi="1.0"/>
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
-    </InputData>
+    </InputData>-->
     
     
     <UserConfig>                    
@@ -331,6 +338,8 @@
       <Item Name="JMSunc" Value="0.004" />
       <Item Name="JMR" Value="1.079" />
       <Item Name="JMRunc" Value="0.105" />
+      <Item Name="PDFSET" Value="262400" /> <!-- 237800 229800 or 242800 ?? there is no lo NNPDF23!? NNPDF30_lo_as0.118_fl4 = 262400 -->
+      <Item Name="wPDFname" Value="wpdf_M7500_QstarQZ_NNPDF30" />
 
     
 

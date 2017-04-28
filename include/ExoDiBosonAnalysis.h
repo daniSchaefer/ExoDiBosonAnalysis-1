@@ -226,12 +226,13 @@ private:
   float		pdgWidthw;   
   float		weight_			;
   float		weight			;
-  float  genweight_   ;
+  float         genweight_   ;
   float		puweight_		;
   float		ptweight_		;
   float		hltweight_		;
   float  btagweight_  ;
   float  lumiweight_  ;
+  std::vector<double> pdfweight_       ;
   float  btagvetow    ;
   float  htagw        ;  
   float		Mjj				;
@@ -453,6 +454,8 @@ private:
   int   realW_def1 ;
   int   realW_def2 ;
   
+   
+  
   float wmax_  =0;
   float wmaxpu_ =0;
   float wmaxlumi_ =0;
@@ -461,6 +464,7 @@ private:
   float wmaxbtag_=0;
   float wmaxgen_=0;
   int numEvents_=0;
+
   
 
 }; // class ExoDiBosonAnalysis

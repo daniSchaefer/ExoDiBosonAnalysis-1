@@ -31,7 +31,7 @@ def openRootFile(filename,inputdir):
 
 def passedMjjCut(tree):
     mass = tree.MVV
-    if mass>=1055:
+    if mass>=1050:
         return True
     else:
         return False
@@ -141,7 +141,7 @@ if __name__== '__main__':
         isMC = False;
     print isMC
     
-    inputdir = "../../AnalysisOutput/80X/SignalMC/Summer16/"
+    inputdir = "../../AnalysisOutput/80X/SignalMC/Summer16/Sys/"
     f = openRootFile(fname,inputdir)
     print f
     if mode.find('Mjj')!=-1:
@@ -194,21 +194,31 @@ if __name__== '__main__':
                 histonames.append("qWLP")
                 histonames.append("qZHP")
                 histonames.append("qZLP")
-                histonames.append("qVNP")
-                histonames.append("qWNP")
-                histonames.append("qZNP")
+                #histonames.append("qVNP")
+                #histonames.append("qWNP")
+                #histonames.append("qZNP")
         
         
         
         
+        nPDF =0
+        listOfH=[]
+        if mode.find("PDF")!=-1:
+            nPDF=101
+            for i in range(0,nPDF):
+                tmp =[]
+                for name in histonames:
+                    tmp.append(name+str(i))
+                listOfH.append(tmp)
+        else:
+            listOfH.append(histonames)
         
     
+        #print listOfH
     
-    
-    
-        nBins = 7000;
+        nBins = 8000;
         minBins= 0;
-        maxBins= 7000;
+        maxBins= 8000;
 
         
         h =[]
@@ -219,76 +229,87 @@ if __name__== '__main__':
         prodlumi = numberEvents/xs
             
         scale = lumi/prodlumi
-        
-        for n in histonames:
-            h.append(ROOT.TH1D(n,n,nBins,minBins,maxBins))
-            print n
-        
+        HPcut = 0.35
+        for l in listOfH:
+            tmp =[]
+            for n in l:
+                tmp.append(ROOT.TH1D(n,n,nBins,minBins,maxBins))
+            h.append(tmp)
+            #print n
+        print f
+        #print h
         Mjj= f.Get('Mjj')
+       # Mgen = f.Get('Mjj_allHadGen')
         nevents =0;
         for event in f.tree:
             if passedMjjCut(f.tree)==False:
                 continue;
             nevents +=1;
             passedSomething = False
-            
-            if event.jet_puppi_tau2tau1_jet2 <= 0.40 and event.jet_puppi_tau2tau1_jet1 <= 0.40 :
-                 h[0].Fill(event.MVV,event.weight) #VVHPHP
-                 if (65. <= event.jet_puppi_softdrop_jet1 <= 85. and 65. <= event.jet_puppi_softdrop_jet2 <= 85.) :
-                    h[3].Fill(event.MVV,event.weight) #WWHPHP
-                 if (85. < event.jet_puppi_softdrop_jet1 <= 105. and 85. < event.jet_puppi_softdrop_jet2 < 105.) :
-                    h[6].Fill(event.MVV,event.weight) #ZZHPHP
-                 if ( (85 < event.jet_puppi_softdrop_jet1 <= 105. and 65. <= event.jet_puppi_softdrop_jet2 <= 85.) or (85 < event.jet_puppi_softdrop_jet2 <= 105. and 65. <= event.jet_puppi_softdrop_jet1 <= 85.) ) :
-                    h[9].Fill(event.MVV,event.weight) #WZHPHP
-          
-            if (event.jet_puppi_tau2tau1_jet2 <= 0.40 and 0.40 < event.jet_puppi_tau2tau1_jet1 <= 0.75) or (event.jet_puppi_tau2tau1_jet1 <= 0.40 and 0.40 < event.jet_puppi_tau2tau1_jet2 <= 0.75) :
-                 h[1].Fill(event.MVV,event.weight) #VVHPLP
-                 if (65 <= event.jet_puppi_softdrop_jet1 <= 85. and 65 <= event.jet_puppi_softdrop_jet2 < 85.) :
-                    h[4].Fill(event.MVV,event.weight) #WWHPLP
-                 if (85 < event.jet_puppi_softdrop_jet1 <= 105. and 85. < event.jet_puppi_softdrop_jet2 <= 105.) :
-                    h[7].Fill(event.MVV,event.weight) #ZZHPLP
-                 if ( (85 < event.jet_puppi_softdrop_jet1 <= 105. and 65. <= event.jet_puppi_softdrop_jet2 < 85.) or (85 < event.jet_puppi_softdrop_jet2 <= 105. and 65. <= event.jet_puppi_softdrop_jet1 < 85.) ) :
-                    h[10].Fill(event.MVV,event.weight) #WZHPLP
+            #print event.pdfweight
+            for iPDF in range(0,len(event.pdfweight)+1):
+                #print event.event
+                #print "fill "+str(iPDF)
+                pdfweight = 1.
+                if mode.find("PDF")!=-1 and iPDF!=0:
+                    pdfweight = event.pdfweight.at(iPDF)
+                #print pdfweight
+                if region.find("q")==-1:
+                        print " VV dijet SR"
+                        if event.jet_puppi_tau2tau1_jet2 <= HPcut and event.jet_puppi_tau2tau1_jet1 <= HPcut :
+                            h[iPDF][0].Fill(event.MVV,event.weight*pdfweight) #VVHPHP
+                            if (65. <= event.jet_puppi_softdrop_jet1 <= 85. and 65. <= event.jet_puppi_softdrop_jet2 <= 85.) :
+                                h[iPDF][3].Fill(event.MVV,event.weight*pdfweight) #WWHPHP
+                            if (85. < event.jet_puppi_softdrop_jet1 <= 105. and 85. < event.jet_puppi_softdrop_jet2 < 105.) :
+                                h[iPDF][6].Fill(event.MVV,event.weight*pdfweight) #ZZHPHP
+                            if ( (85 < event.jet_puppi_softdrop_jet1 <= 105. and 65. <= event.jet_puppi_softdrop_jet2 <= 85.) or (85 < event.jet_puppi_softdrop_jet2 <= 105. and 65. <= event.jet_puppi_softdrop_jet1 <= 85.) ) :
+                                h[iPDF][9].Fill(event.MVV,event.weight*pdfweight) #WZHPHP
                     
-            if (0.40 < event.jet_puppi_tau2tau1_jet1 <= 0.75) and (0.40 < event.jet_puppi_tau2tau1_jet2 <= 0.75):
-                 h[2].Fill(event.MVV,event.weight) #VVLPLP
-                 if (65. <= event.jet_puppi_softdrop_jet1 <= 85. and 65. <= event.jet_puppi_softdrop_jet2 <= 85.) :
-                    h[5].Fill(event.MVV,event.weight) #WWLPLP
-                 if (85. < event.jet_puppi_softdrop_jet1 <= 105. and 85. < event.jet_puppi_softdrop_jet2 < 105.) :
-                    h[8].Fill(event.MVV,event.weight) #ZZLPLP
-                 if ( (85 < event.jet_puppi_softdrop_jet1 <= 105. and 65. <= event.jet_puppi_softdrop_jet2 <= 85.) or (85 < event.jet_puppi_softdrop_jet2 <= 105. and 65. <= event.jet_puppi_softdrop_jet1 <= 85.) ) :
-                    h[11].Fill(event.MVV,event.weight) #WZLPLP
+                        if (event.jet_puppi_tau2tau1_jet2 <= HPcut and HPcut < event.jet_puppi_tau2tau1_jet1 <= 0.75) or (event.jet_puppi_tau2tau1_jet1 <= HPcut and HPcut < event.jet_puppi_tau2tau1_jet2 <= 0.75) :
+                            h[iPDF][1].Fill(event.MVV,event.weight*pdfweight) #VVHPLP
+                            if (65 <= event.jet_puppi_softdrop_jet1 <= 85. and 65 <= event.jet_puppi_softdrop_jet2 < 85.) :
+                                h[iPDF][4].Fill(event.MVV,event.weight*pdfweight) #WWHPLP
+                            if (85 < event.jet_puppi_softdrop_jet1 <= 105. and 85. < event.jet_puppi_softdrop_jet2 <= 105.) :
+                                h[iPDF][7].Fill(event.MVV,event.weight*pdfweight) #ZZHPLP
+                            if ( (85 < event.jet_puppi_softdrop_jet1 <= 105. and 65. <= event.jet_puppi_softdrop_jet2 < 85.) or (85 < event.jet_puppi_softdrop_jet2 <= 105. and 65. <= event.jet_puppi_softdrop_jet1 < 85.) ) :
+                                h[iPDF][10].Fill(event.MVV,event.weight*pdfweight) #WZHPLP
+                                print "fill WZHPLP"
+                                
+                        if (HPcut < event.jet_puppi_tau2tau1_jet1 <= 0.75) and (HPcut < event.jet_puppi_tau2tau1_jet2 <= 0.75):
+                            h[iPDF][2].Fill(event.MVV,event.weight*pdfweight) #VVLPLP
+                            if (65. <= event.jet_puppi_softdrop_jet1 <= 85. and 65. <= event.jet_puppi_softdrop_jet2 <= 85.) :
+                                h[iPDF][5].Fill(event.MVV,event.weight*pdfweight) #WWLPLP
+                            if (85. < event.jet_puppi_softdrop_jet1 <= 105. and 85. < event.jet_puppi_softdrop_jet2 < 105.) :
+                                h[iPDF][8].Fill(event.MVV,event.weight*pdfweight) #ZZLPLP
+                            if ( (85 < event.jet_puppi_softdrop_jet1 <= 105. and 65. <= event.jet_puppi_softdrop_jet2 <= 85.) or (85 < event.jet_puppi_softdrop_jet2 <= 105. and 65. <= event.jet_puppi_softdrop_jet1 <= 85.) ) :
+                                h[iPDF][11].Fill(event.MVV,event.weight*pdfweight) #WZLPLP
             
-            #for i in range(0,len(histonames)):
-                ##print getMjj(event)
-                #if checkMassWindow(histonames[i],region,f.tree) and passedTau21(histonames[i],f.tree):
-                    ##print "passed "+histonames[i]
-                    #passedSomething=True
-                    #if f.tree.puweight>100000:
-                        #print "puweight infinite "#-> skip event"
-                        #print getMjj(f.tree)
-                        #print "weight:"
-                        #print f.tree.weight
-                        #print "lumi weight:"
-                        #print f.tree.lumiweight
-                        #print "gen weight:"
-                        #print f.tree.genweight
-                        #print "pu weight:"
-                        #print f.tree.puweight
-                        #print "btag weight:"
-                        #print f.tree.btagweight
-                        #print "pt weight:"
-                        #print f.tree.ptweight
-                        #print "=========================================="
-                        ##continue
-                    #if isMC==False:
-                        #h[i].Fill(getMjj(f.tree),f.tree.weight)
-                    #if isMC==True:
-                        #w = f.tree.lumiweight*f.tree.puweight*f.tree.ptweight
-                        #h[i].Fill(getMjj(f.tree),f.tree.weight)
+                else:
+                    
+                    if ( event.MVV < 1050.): continue
+                    if ( (65. <= event.jet_puppi_softdrop_jet2 <= 105. and event.jet_puppi_tau2tau1_jet2 <= HPcut) or (65. <= event.jet_puppi_softdrop_jet1 <= 105. and event.jet_puppi_tau2tau1_jet1 <= HPcut)):
+                        h[iPDF][0].Fill(event.MVV,event.weight*pdfweight) #qVHP
                         
-    
-            
+                    if ( (65. <= event.jet_puppi_softdrop_jet2 <= 105. and HPcut <event.jet_puppi_tau2tau1_jet2 <= 0.75) or (65. <= event.jet_puppi_softdrop_jet1 <= 105. and HPcut <event.jet_puppi_tau2tau1_jet1 <= 0.75)):
+                        h[iPDF][1].Fill(event.MVV,event.weight*pdfweight) #qVLP
+                        
+
+                    if ( (85. < event.jet_puppi_softdrop_jet2 <= 105. and event.jet_puppi_tau2tau1_jet2 <= HPcut) or (85. < event.jet_puppi_softdrop_jet1 <= 105. and event.jet_puppi_tau2tau1_jet1 <= HPcut)):
+                        h[iPDF][4].Fill(event.MVV,event.weight*pdfweight) #qZHP
+                        
+                    if ( (85. < event.jet_puppi_softdrop_jet2 <= 105. and HPcut <event.jet_puppi_tau2tau1_jet2 <= 0.75) or (85. < event.jet_puppi_softdrop_jet1 <= 105. and HPcut <event.jet_puppi_tau2tau1_jet1 <= 0.75)):
+                        h[iPDF][5].Fill(event.MVV,event.weight*pdfweight) #qZLP
+                        
+                    if ( (65. <= event.jet_puppi_softdrop_jet2 <= 85. and event.jet_puppi_tau2tau1_jet2 <= HPcut) or (65. <= event.jet_puppi_softdrop_jet1 <= 85. and event.jet_puppi_tau2tau1_jet1 <= HPcut)):
+                        h[iPDF][2].Fill(event.MVV,event.weight*pdfweight) #qWHP
+                        
+                    if ( (65. <= event.jet_puppi_softdrop_jet2 <= 85. and HPcut <event.jet_puppi_tau2tau1_jet2 <= 0.75) or (65. <= event.jet_puppi_softdrop_jet1 <= 85. and HPcut <event.jet_puppi_tau2tau1_jet1 <= 0.75)):
+                        h[iPDF][3].Fill(event.MVV,event.weight*pdfweight) #qWLP
+                        
+                
+                
+                
+        print h    
         print nevents
         if isMC==False:
             fout = ROOT.TFile(outdir+"Data_VV_"+region+"_"+suffix+".root","RECREATE")
@@ -298,12 +319,15 @@ if __name__== '__main__':
 
         else:
             fout = ROOT.TFile(outdir+"Signal_"+suffix+".root","RECREATE")
+            #Mgen.Scale(lumi)
             Mjj.Scale(lumi)
             fout.WriteTObject(Mjj)
+            #fout.WriteTObject(Mgen)
             #print outdir+"MC_VV_"+region+"_"+suffix+".root"
-            for obj in h:
-                obj.Scale(lumi)
-                fout.WriteTObject(obj)
+            for l in h:
+                for obj in l:
+                    obj.Scale(lumi)
+                    fout.WriteTObject(obj)
     
             
     if mode.find('qVcontamination')!=-1:

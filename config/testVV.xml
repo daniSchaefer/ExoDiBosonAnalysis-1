@@ -10,18 +10,24 @@
   <Cycle Name="ExoDiBosonAnalysis" OutputDirectory="./" PostFix="" ProofServer="lite" ProofWorkDir="" RunMode="LOCAL" TargetLumi="1.0">
     
     <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="VV" Type="test">
-<In FileName="root://t3dcachedb.psi.ch:1094//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/ZprimeToWW_narrow_M-2000_13TeV-madgraph_RunIISpring16MiniAODv2_PUSpring16RAWAODSIM_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1/EXOVVTree_ZprimeToWW_narrow_M-2000_13TeV-madgraph_RunIISpring16MiniAODv2_PUSpring16RAWAODSIM_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1_1.root" Lumi="1.0" />
+<In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Summer16/Ntuple_80_20170203/QCD_Pt_1000to1400_TuneCUETP8M1_13TeV_pythia8/QCD_Pt_1000to1400_TuneCUETP8M1_13TeV_pythia820170203_QCD/170203_134720/0000/flatTuple_1.root" Lumi="1.0" />
       <InputTree Name="ntuplizer/tree" />
       <OutputTree Name="tree" />
     </InputData>
 
+    
+   <!--  <InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="VV" Type="test">
+<In FileName="dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Summer16/Ntuple_80_20170203/QCD_Pt_1000to1400_TuneCUETP8M1_13TeV_pythia8/QCD_Pt_1000to1400_TuneCUETP8M1_13TeV_pythia820170203_QCD_ext/170203_141652/0000/flatTuple_1.root" Lumi="1.0" />
+      <InputTree Name="ntuplizer/tree" />
+      <OutputTree Name="tree" />
+    </InputData>-->
     
     <UserConfig>                    
                    
       <!--general settings--> 
       <Item Name="InputTreeName" Value="tree" />
       <Item Name="OutputTreeName" Value="tree" />
-      <Item Name="isSignal" Value="true" />
+      <Item Name="isSignal" Value="false" />
       <Item Name="runOnMC" Value="true" />
       <Item Name="usePuppiSD" Value="true" />
       <Item Name="GenStudies" Value="false" />
@@ -58,12 +64,12 @@
       <Item Name="xSec" Value="1." />
       <Item Name="genEvents" Value="1." />
       <Item Name="Lumi" Value="1." />
-      <Item Name="PUdata" Value="data/biasXsec_69200.root" />
-      <Item Name="JSONfile" Value="data/Cert_271036-275125_13TeV_PromptReco_Collisions16_JSON.txt" />
+      <Item Name="PUdata" Value="/shome/dschafer/ExoDiBosonAnalysis/results/PU/DataPUDistribution.root" />
+      <Item Name="JSONfile" Value="No" />
       <Item Name="BTagEff4vetoData" Value="data/TT_CT10_TuneZ2star_8TeV-powheg-tauola_AK5PF_CSVM_bTaggingEfficiencyMap.root" />
       <Item Name="BTagEff4fatjetData" Value="data/BtagEfficienciesMap_fatjets_Wp.root" />
       <Item Name="BTagEff4subjetData" Value="data/btag-efficiency-maps.root" />
-      <Item Name="PUPPIJEC" Value="data/puppiCorr.root" />
+      <Item Name="PUPPIJEC" Value="/shome/dschafer/ExoDiBosonAnalysis/data/puppiCorr.root" />
       <Item Name="PUPPIJMR" Value="data/jetmassResolution.root" />
       
       <Item Name="scaleUncPar" Value="" /> <!-- -1 = NoScaling   0/1 = JMS UP/DOWN   2/3 =JMR UP/DOWN 4/5 = JES UP/DOWN 6/7 = JER UP/DOWN  -->

@@ -14,7 +14,9 @@ public:
     Winter15_25ns,
     Fall15_25ns,
     Spring16_25ns,
-    Summer16_25ns};
+    Summer16_25ns,
+    Summer16_25ns_FlatPU
+};
 
   static Scenario toScenario(const std::string& str);
   static std::string toString(const Scenario sc);

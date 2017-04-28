@@ -51,6 +51,7 @@ namespace std {} using namespace std;
 #include "include/JetCandidate.h"
 #include "include/HistosManager.h"
 #include "include/ExoDiBosonAnalysis.h"
+#include "include/SomeTools.h"
 #include "include/NtupleManager.h"
 #include "include/RecoCandidate.h"
 #include "include/BTagWeight.h"
@@ -493,6 +494,7 @@ namespace {
 "include/JetCandidate.h",
 "include/HistosManager.h",
 "include/ExoDiBosonAnalysis.h",
+"include/SomeTools.h",
 "include/NtupleManager.h",
 "include/RecoCandidate.h",
 "include/BTagWeight.h",
@@ -542,6 +544,7 @@ class __attribute__((annotate("$clingAutoload$include/InputData.h")))  TLorentzV
 #include "include/JetCandidate.h"
 #include "include/HistosManager.h"
 #include "include/ExoDiBosonAnalysis.h"
+#include "include/SomeTools.h"
 #include "include/NtupleManager.h"
 #include "include/RecoCandidate.h"
 #include "include/BTagWeight.h"

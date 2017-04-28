@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE JobConfiguration PUBLIC "" "JobConfig.dtd">
+<JobConfiguration JobName="exovvJob" OutputLevel="INFO">
+<Library Name="libGoodRunsLists" />
+<Library Name="libLHAPDF"/>
+<Library Name="libExoDiBosonAnalysis" />
+<Package Name="SFrameCore.par" />
+<Package Name="ExoDiBosonAnalysis.par" />
+<Cycle Name="ExoDiBosonAnalysis" OutputDirectory="../AnalysisOutput/80X/SignalMC/" PostFix="" ProofServer="lite" ProofWorkDir="" RunMode="LOCAL" TargetLumi="1.0">
+<InputData Lumi="0.0" NEventsMax="-1" NEventsSkip="0" SkipValid="False" Version="VV" Type="WprimeWZ_13TeV_1400GeV">
+  <In FileName="root://t3dcachedb.psi.ch:1094//pnfs/psi.ch/cms/trivcat/store/t3groups/uniz-higgs/Spring16/WprimeToWZToWhadZhad_narrow_M-1400_13TeV-madgraph_RunIISpring16MiniAODv2_PUSpring16RAWAODSIM_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1/EXOVVTree_WprimeToWZToWhadZhad_narrow_M-1400_13TeV-madgraph_RunIISpring16MiniAODv2_PUSpring16RAWAODSIM_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1_1.root" Lumi="1.0"/>  
+<InputTree Name="ntuplizer/tree" /> 
+      <OutputTree Name="tree" />    
+    </InputData>                    
+<UserConfig>
+<!--general settings-->                     
+<Item Name="InputTreeName" Value="tree" />  
+<Item Name="OutputTreeName" Value="tree" /> 
+<Item Name="isSignal" Value="true" />       
+<Item Name="runOnMC" Value="true" />        
+<Item Name="usePuppiSD" Value="true" />     
+<Item Name="GenStudies" Value="false" />    
+<Item Name="Channel" Value="VVdijet" />     
+<Item Name="MassWindow" Value="VV" />       
+<Item Name="Trigger" Value="false" />       
+<Item Name="applyFilters" Value="false" />  
+                                            
+<!--leptonic selections-->                  
+<Item Name="LeptPtCut" Value="30" />        
+<Item Name="LeptEtaCut" Value="2.1" />      
+<Item Name="AleptPtCut" Value="30" />       
+<Item Name="AleptEtaCut" Value="2.4" />     
+<Item Name="METCut" Value="30" />           
+                                            
+<!--jet selections-->                       
+                                            
+<Item Name="dEtaCut" Value="1.3" />         
+<Item Name="MjjCut" Value="1055.0" />        
+<Item Name="JetPtCutLoose" Value="30." />   
+<Item Name="JetPtCutTight" Value="200." />  
+<Item Name="JetEtaCut" Value="2.5" />       
+<Item Name="Tau21Cut" Value="true" />       
+<Item Name="Tau21HPLow" Value="0.00" />     
+<Item Name="Tau21HPHigh" Value="0.40" />    
+<Item Name="Tau21Low" Value="0.40" />       
+<Item Name="Tau21High" Value="0.75" />      
+                                            
+<Item Name="mWLow" Value="65." />           
+<Item Name="mWHigh" Value="85." />          
+<Item Name="mZLow" Value="85." />           
+<Item Name="mZHigh" Value="105." />         
+                                            
+<Item Name="xSec" Value="1." />             
+<Item Name="genEvents" Value="1." />        
+<Item Name="Lumi" Value="1." />             
+<Item Name="PUdata" Value="results/PU/DataPUDistribution.root" /> 
+<Item Name="JSONfile" Value="/mnt/t3nfs01/data01/shome/thaarres//EXOVVAnalysisRunII/ExoDiBosonAnalysis/data/Cert_271036-275125_13TeV_PromptReco_Collisions16_JSON.txt" />
+<Item Name="BTagEff4vetoData" Value="data/TT_CT10_TuneZ2star_8TeV-powheg-tauola_AK5PF_CSVM_bTaggingEfficiencyMap.root" />  
+<Item Name="BTagEff4fatjetData" Value="data/BtagEfficienciesMap_fatjets_Wp.root" />  
+<Item Name="BTagEff4subjetData" Value="data/btag-efficiency-maps.root" />           
+<Item Name="PUPPIJEC" Value="/mnt/t3nfs01/data01/shome/thaarres/EXOVVAnalysisRunII/PuppiSoftdropMassCorr_80X/PuppiSoftdropMassCorr/weights/puppiCorr.root" /> 
+<Item Name="PUPPIJMR" Value="/mnt/t3nfs01/data01/shome/thaarres//EXOVVAnalysisRunII/ExoDiBosonAnalysis/data/jetmassResolution.root" /> 
+<Item Name="scaleUncPar" Value="" /> <!-- -1 = NoScaling   0/1 = JMS UP/DOWN   2/3 =JMR UP/DOWN 4/5 = JES UP/DOWN 6/7 = JER UP/DOWN  -->  
+<Item Name="JMS" Value="0.999" />  
+<Item Name="JMSunc" Value="0.004" />  
+<Item Name="JMR" Value="1.079" />      
+<Item Name="JMRunc" Value="0.105" />    
+  </UserConfig>  
+</Cycle>  
+</JobConfiguration>

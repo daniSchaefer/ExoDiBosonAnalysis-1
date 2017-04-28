@@ -3,6 +3,7 @@
 #include "../ExoDiBosonAnalysis/include/HistosManager.h"
 #include "../ExoDiBosonAnalysis/include/NtupleManager.h"
 #include "../ExoDiBosonAnalysis/include/MatchingTools.h"
+#include "../ExoDiBosonAnalysis/include/SomeTools.h"
 #include "LHAPDF/LHAPDF.h"
 
 #include <iostream>
@@ -217,6 +218,7 @@ void ExoDiBosonAnalysis::initWeight( void ){
  // else
   std::string scenario = "PUS25ns80X";
   if( infile.Contains("Summer16") || infile.Contains("Run2016")) scenario = "PUS25ns80X_full2016";
+  if( infile.Contains("Summer16") and infile.Contains("Flat")) scenario = "PU25ns80X_flatPU";
   if( infile.Contains("Fall15") ) scenario = "PUS25ns76X";
   // if( infile.Contains("Spring15") ) PUProfileData_ = "/mnt/t3nfs01/data01/shome/thaarres/EXOVVAnalysisRunII/ExoDiBosonAnalysis/data/biasXsec_72000.root";
   PUWeight::Scenario sc = PUWeight_.toScenario(scenario);
@@ -273,6 +275,7 @@ void ExoDiBosonAnalysis::BeginInputData( const SInputData& ) throw( SError ) {
   DeclareVariable( genweight_    , "genweight"         , OutputTreeName_.c_str() );
   DeclareVariable( btagweight_ 	 , "btagweight"        , OutputTreeName_.c_str() );
   DeclareVariable( ptweight_ 	   , "ptweight"        , OutputTreeName_.c_str() );
+  DeclareVariable( pdfweight_ 	   , "pdfweight"        , OutputTreeName_.c_str() );
   DeclareVariable( weight	  , "weight"	       , OutputTreeName_.c_str() );
   DeclareVariable( run     	     , "run"	       , OutputTreeName_.c_str() );
   DeclareVariable( event     	   , "event"	       , OutputTreeName_.c_str() );
@@ -546,7 +549,8 @@ void ExoDiBosonAnalysis::setWeight( TString infile ){
   std::cout << "Skipping this event..."<<std::endl;
   throw SError( SError::SkipEvent );
   }
-    
+  //std::cout << lumiweight_ << std::endl;
+  //std::cout << lumiw << std::endl;
 }
 
 //==============================================================================================
@@ -568,7 +572,16 @@ void ExoDiBosonAnalysis::ExecuteEvent( const SInputData&, Double_t ) throw( SErr
     
     TString infile = TString(this->GetHistInputFile()->GetName());
     setWeight(infile);
+    //PrintPdgIDs(data_);
+    double cos_theta1 = CalculateCOSTheta1(data_, 1);
+    Hist("gen_COS_Theta1")->Fill(cos_theta1);
     
+    
+    if(isHadronicEvent(data_))
+    {
+        double M_graviton = getGravitonGenMass(data_);
+        Hist("Mjj_allHadGen")->Fill(M_graviton,weight_ );
+    }
     
 //     if(wmax_     <= weight_){ wmax_ = weight_;}
 //     if(wmaxpu_   <= puweight_  ){wmaxpu_   = puweight_  ;}
@@ -1667,13 +1680,18 @@ bool ExoDiBosonAnalysis::passedDijetSelections(  TString infile  ){
       if(Channel_.find("qV")!=std::string::npos)
       {
         //========== original sideband definition =========================================  
-        if((Vcand.at(0).puppi_softdropMass > 20 && Vcand.at(0).puppi_softdropMass < mWLow_ && Vcand.at(1).puppi_softdropMass > 105 && Vcand.at(1).puppi_softdropMass < 200 ) or (Vcand.at(1).puppi_softdropMass > 20 && Vcand.at(1).puppi_softdropMass < mWLow_ && Vcand.at(0).puppi_softdropMass > 105 && Vcand.at(0).puppi_softdropMass < 200 ) )
-            passedGroomedMassCut = true;
-        //=================================================================================
-        if( ((20 < Vcand.at(0).puppi_softdropMass) && (Vcand.at(0).puppi_softdropMass < mWLow_) ) && ((20 < Vcand.at(1).puppi_softdropMass) && (Vcand.at(1).puppi_softdropMass < mWLow_) ))  
-           passedGroomedMassCut = true; 
-        if( ( (mZHigh_ < Vcand.at(0).puppi_softdropMass) && ( Vcand.at(0).puppi_softdropMass< 200) ) && ((mZHigh_ < Vcand.at(1).puppi_softdropMass) && (Vcand.at(1).puppi_softdropMass < 200 )))
-            passedGroomedMassCut = true;
+//         if((Vcand.at(0).puppi_softdropMass > 20 && Vcand.at(0).puppi_softdropMass < mWLow_ && Vcand.at(1).puppi_softdropMass > 105 && Vcand.at(1).puppi_softdropMass < 200 ) or (Vcand.at(1).puppi_softdropMass > 20 && Vcand.at(1).puppi_softdropMass < mWLow_ && Vcand.at(0).puppi_softdropMass > 105 && Vcand.at(0).puppi_softdropMass < 200 ) )
+//             passedGroomedMassCut = true;
+//         //=================================================================================
+//         if( ((20 < Vcand.at(0).puppi_softdropMass) && (Vcand.at(0).puppi_softdropMass < mWLow_) ) && ((20 < Vcand.at(1).puppi_softdropMass) && (Vcand.at(1).puppi_softdropMass < mWLow_) ))  
+//            passedGroomedMassCut = true; 
+//         if( ( (mZHigh_ < Vcand.at(0).puppi_softdropMass) && ( Vcand.at(0).puppi_softdropMass< 200) ) && ((mZHigh_ < Vcand.at(1).puppi_softdropMass) && (Vcand.at(1).puppi_softdropMass < 200 )))
+//             passedGroomedMassCut = true;
+           if ( (45 < Vcand.at(0).puppi_softdropMass and Vcand.at(0).puppi_softdropMass <= 65. and 105 < Vcand.at(1).puppi_softdropMass and Vcand.at(1).puppi_softdropMass < 200) or ( 45 < Vcand.at(1).puppi_softdropMass and Vcand.at(1).puppi_softdropMass <= 65. and 105 < Vcand.at(0).puppi_softdropMass and Vcand.at(1).puppi_softdropMass < 200))
+           {
+               passedGroomedMassCut = true;
+           }
+          
       }
     }
 
@@ -3601,7 +3619,6 @@ double ExoDiBosonAnalysis::getJetEnergyScale( int ak8JetID ){
   Hist( "JetPt_postSmearing" )->Fill(pt);
   
   // std::cout<< "jet pt after systematic = " << pt << std::endl;
-
   return pt;
 }
 ////////////////////////////////// SMEAR WITH JET ENERGY SCALE UNCETAINTY AND RESOLUTION /////////////////////////////////////////////////////////////////
@@ -3793,6 +3810,10 @@ void ExoDiBosonAnalysis::calcPDFweight(bool all)
      else
      {
         nPassed_wPDF_.at(n) +=weights.at(n);
+        if( scaleUncPar_.find("PDF")!=std::string::npos)
+        {
+          pdfweight_ = weights;   
+        }
      }
    }
    }

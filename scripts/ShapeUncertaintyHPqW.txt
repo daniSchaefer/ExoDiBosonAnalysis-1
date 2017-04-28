@@ -1,0 +1,11 @@
+==========================================
+=======QstarQW================
+==========================================
+width: 
+mass:      JESup/JESdown       JERup/JERdown
+6000   1.48/9.87   -2.45/3.26
+peak position: 
+mass:      JESup/JESdown       JERup/JERdown
+6000   0.92/-1.05   0.05/-0.05
+maximum rel. diff width: JES 9.87   JER  3.26
+maximum rel. diff peak : JES 1.05   JER  0.92
