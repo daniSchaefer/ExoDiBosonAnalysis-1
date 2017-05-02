@@ -1,0 +1,10 @@
+signal yield minBiasXsecUp minBiasXsecDown (in percent)
+
+ZprimeWW_M1200 0.446 0.223
+ZprimeWW_M1400 0.232 0.116
+ZprimeWW_M1800 0.000 0.379
+ZprimeWW_M2000 -0.361 0.241
+ZprimeWW_M3000 -0.718 0.837
+ZprimeWW_M3500 -0.427 0.000
+ZprimeWW_M4000 0.000 0.323
+ZprimeWW_M4500 -0.204 0.306
