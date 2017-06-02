@@ -152,7 +152,8 @@ ExoDiBosonAnalysis::ExoDiBosonAnalysis()
   
   // setPredictedDistribution();
   
-  tr_ = new TRandom3(0);   
+  tr_ = new TRandom3(0); 
+  tr_->SetSeed(42);  
    
 }
 
@@ -204,6 +205,7 @@ void ExoDiBosonAnalysis::BeginCycle() throw( SError ) {
    AddConfigObject( &m_grl );
   }
   
+  
   InitPDFSet(PDFSET_);
   return;
 
@@ -217,7 +219,7 @@ void ExoDiBosonAnalysis::initWeight( void ){
   // if( infile.Contains("16Dec2015") or infile.Contains("Fall15") ) scenario = "PUS25ns76X";
  // else
   std::string scenario = "PUS25ns80X";
-  if( infile.Contains("Summer16") || infile.Contains("Run2016")) scenario = "PUS25ns80X_full2016";
+  if( infile.Contains("Summer16") || infile.Contains("Run2016") || infile.Contains("postMoriond")) scenario = "PUS25ns80X_full2016";
   if( infile.Contains("Summer16") and infile.Contains("Flat")) scenario = "PU25ns80X_flatPU";
   if( infile.Contains("Fall15") ) scenario = "PUS25ns76X";
   // if( infile.Contains("Spring15") ) PUProfileData_ = "/mnt/t3nfs01/data01/shome/thaarres/EXOVVAnalysisRunII/ExoDiBosonAnalysis/data/biasXsec_72000.root";
@@ -566,10 +568,15 @@ void ExoDiBosonAnalysis::ExecuteEvent( const SInputData&, Double_t ) throw( SErr
   //// Dijet analysis begins HERE/////////////////////////////////////////////////////////////////////////
   calcPDFweight(1);
   
- 
+  
   if( Channel_ == "VVdijet" || Channel_ == "qVdijet" ){
+      m_logger << DEBUG << " event " << data_.EVENT_event << SLogger::endmsg;
      //m_logger << INFO << "Channel : VVdijet of qVdijet "<< SLogger::endmsg; 
-    
+
+      
+      
+      
+      
     TString infile = TString(this->GetHistInputFile()->GetName());
     setWeight(infile);
     //PrintPdgIDs(data_);
@@ -685,6 +692,15 @@ void ExoDiBosonAnalysis::ExecuteEvent( const SInputData&, Double_t ) throw( SErr
 
          nsub_jet1 = Vcand.at(0).puppi_tau2/Vcand.at(0).puppi_tau1;
          nsub_jet2 = Vcand.at(1).puppi_tau2/Vcand.at(1).puppi_tau1;
+       /*  
+          if (data_.EVENT_event == 27259 ){
+       
+        std::ofstream myfile;
+        myfile.open("Difference.txt",ios::app);
+        myfile << "puppi softdrop mass after dijet selections  " <<  "jet 1 " << Vcand.at(0).puppi_softdropMass  << " jet2 " << Vcand.at(1).puppi_softdropMass   << std::endl;
+        myfile << " groomed mass : " << groomedMass_jet1 << "   " << groomedMass_jet2 << std::endl;
+        }*/
+         
       }
       if( Channel_ == "VVdijet"){
         channel = -1;
@@ -876,8 +892,12 @@ void ExoDiBosonAnalysis::ExecuteEvent( const SInputData&, Double_t ) throw( SErr
     jet2_charge    = Vcand.at(jetINDX2).charge   ;
     jet2_area      = Vcand.at(jetINDX2).area     ;
     
+    std::ofstream myfile;
+    myfile.open ("example.txt",ios::app);
+    myfile << data_.EVENT_event << std::endl;
     
-    
+
+      
     
 
       fillHistos(Channel_);
@@ -1485,55 +1505,7 @@ bool ExoDiBosonAnalysis::passedDijetSelections(  TString infile  ){
     if(wmaxbtag_ <= btagweight_){wmaxbtag_ = btagweight_;}
     if(wmaxgen_  <= genweight_ ){wmaxgen_  = genweight_ ;}
     
-//       if( numEvents_ == 107804)
-//     {
-//     std::cout << "================== event : "<< numEvents_ << " ======================"<<std::endl;
-//     std::cout <<"weight : " <<weight_ << std::endl;
-//     std::cout <<"lumiweight : " << lumiweight_ << std::endl;
-//     std::cout <<"PU weight  : " << puweight_ << std::endl;
-//     std::cout <<"HLT weight : "<<  hltweight_ << std::endl;
-//     std::cout <<"btagveto w : "<< btagweight_ << std::endl;
-//     std::cout <<"gen weight : "<< genweight_ << std::endl;
-//      for( int i = 0; i < abs(Vcand.size()) ; i++){
-//     std::cout <<  "Mass    "                    <<   Vcand.at(i).p4.M()             << std::endl;
-//     std::cout << "PrunedMass   "               <<  Vcand.at(i).prunedMass          << std::endl;
-//     std::cout << "PuppiSoftdropMass   "        <<  Vcand.at(i).puppi_softdropMass  << std::endl;
-//     std::cout << "Tau21  "                    <<  Vcand.at(i).tau2/Vcand.at(i).tau1<< std::endl;
-//     std::cout << "Pt   "                       <<  Vcand.at(i).p4.Pt()             << std::endl;
-//     std::cout << "Eta  "                      <<  Vcand.at(i).p4.Eta()            << std::endl;
-//     std::cout << "Phi  "                      <<  Vcand.at(i).p4.Phi()            << std::endl;
-//     std::cout << "Mass  "                     <<  Vcand.at(i).p4.M()              << std::endl;  
-//     std::cout << "cm  "                       <<  Vcand.at(i).cm	                 << std::endl;
-//     std::cout << "nm  "                       <<  Vcand.at(i).nm	                 << std::endl;
-//     std::cout << "muf  "                      <<  Vcand.at(i).muf                  << std::endl;
-//     std::cout << "phf  "                      <<  Vcand.at(i).phf  << std::endl;
-//     std::cout << "emf  "                      <<  Vcand.at(i).emf  << std::endl;
-//     std::cout << "nhf  "                      <<  Vcand.at(i).nhf  << std::endl;
-//     std::cout << "chf  "                      <<  Vcand.at(i).chf  << std::endl;
-//     std::cout << "area  "                     <<  Vcand.at(i).area << std::endl;
-//     std::cout << "tau1  "                     <<  Vcand.at(i).tau1 << std::endl;
-//     std::cout << "tau2  "                     <<  Vcand.at(i).tau2 << std::endl;
-//     std::cout << "tau3tau2  "                 <<  Vcand.at(i).tau3/Vcand.at(i).tau2  << std::endl;
-//     std::cout << "tau3tau1  "                 <<  Vcand.at(i).tau3/Vcand.at(i).tau1  << std::endl;
-//     std::cout << "tau2tau1  "                 <<  Vcand.at(i).tau2/Vcand.at(i).tau1  << std::endl;
-//     std::cout << "puppi_tau3tau2  "           <<  Vcand.at(i).puppi_tau3/Vcand.at(i).puppi_tau2 << std::endl;
-//     std::cout << "puppi_tau3tau1  "           <<  Vcand.at(i).puppi_tau3/Vcand.at(i).puppi_tau1 << std::endl;
-//     std::cout << "puppi_tau2tau1  "           <<  Vcand.at(i).puppi_tau2/Vcand.at(i).puppi_tau1 << std::endl;
-//     std::cout << "puppi_tau1  "               <<  Vcand.at(i).puppi_tau1 << std::endl;
-//     std::cout << "puppi_tau2  "               <<  Vcand.at(i).puppi_tau2 << std::endl;
-//     std::cout << "tau3  "                     <<  Vcand.at(i).tau3 << std::endl;
-//     std::cout << "che  "                      <<  Vcand.at(i).che  << std::endl;
-//     std::cout << "ne  "                       <<  Vcand.at(i).ne   << std::endl;
-//     std::cout << "HFHadronEnergyFraction  "   <<  Vcand.at(i).hf_hf  <<std::endl;
-//     std::cout << "HFEMEnergyFraction  "       <<  Vcand.at(i).hf_emf <<std::endl;
-//     std::cout << "hoEnergyFraction  "         <<  Vcand.at(i).hof    <<std::endl;
-//     std::cout << "chargedHadronMultiplicity  "<<  Vcand.at(i).chm    <<std::endl;
-//     //std::cout << "neutralHadronMultiplicity"<<  Vcand.at(i).neHadM <<std::endl;
-//     std::cout << "photonMultiplicity  "       <<  Vcand.at(i).phoMult << std::endl;
-//     std::cout << "neutralEmEnergyFraction  "  <<  Vcand.at(i).nemf    << std::endl;
-//     std::cout << "chargedEmEnergyFraction  "  <<  Vcand.at(i).cemf    << std::endl;
-//      }
-//     }
+
     
   
     Hist( "Weight"      )->Fill( weight_ );
@@ -1604,11 +1576,17 @@ bool ExoDiBosonAnalysis::passedDijetSelections(  TString infile  ){
   if( MET > 0. ) Hist( "MET" )->Fill(MET, weight_ );
   
   if(!usePuppiSD_){
+      
     if( Channel_ == "VVdijet"){
+       
 
       if( Vcand.at(0).prunedMass > mWLow_ && Vcand.at(0).prunedMass <= mZHigh_ && Vcand.at(1).prunedMass > mWLow_ && Vcand.at(1).prunedMass <= mZHigh_){
 
         passedGroomedMassCut = true;
+        
+        
+   
+        
         Hist( "Tau21_punzi1"  )->Fill( Vcand.at(0).tau2/Vcand.at(0).tau1,weight_ );
         Hist( "Tau21_punzi2"  )->Fill( Vcand.at(1).tau2/Vcand.at(1).tau1,weight_ );
 
@@ -1627,6 +1605,12 @@ bool ExoDiBosonAnalysis::passedDijetSelections(  TString infile  ){
       }
     }
 
+//      if (data_.EVENT_event == 27259 ){
+//        
+//     std::ofstream myfile;
+//     myfile.open("Difference.txt",ios::app);
+//     myfile << " passedGroomedMassCut  set to "<< passedGroomedMassCut << std::endl;
+//    }
     if (Channel_ == "qVdijet"){
       for( int i = 0; i < abs(Vcand.size()) ; i++){
         if(!(Vcand.at(i).prunedMass > mWLow_ && Vcand.at(i).prunedMass <= mZHigh_) ) continue;
@@ -1638,7 +1622,24 @@ bool ExoDiBosonAnalysis::passedDijetSelections(  TString infile  ){
   }
 
   else if(usePuppiSD_){
+//        if (data_.EVENT_event == 27259 ){
+//        
+//     std::ofstream myfile;
+//     myfile.open("Difference.txt",ios::app);
+//     myfile << " use puppi SD " << data_.EVENT_event << std::endl;
+//     
+//       }
+      
+      
     if(Channel_ == "VVdijet" && Vcand.at(0).puppi_softdropMass > mWLow_ && Vcand.at(0).puppi_softdropMass <= mZHigh_ && Vcand.at(1).puppi_softdropMass > mWLow_ && Vcand.at(1).puppi_softdropMass <= mZHigh_ ){
+//          if (data_.EVENT_event == 27259 ){
+//        
+//         std::ofstream myfile;
+//         myfile.open("Difference.txt",ios::app);
+//         myfile << "VVdijet " <<  "jet 1 " << Vcand.at(0).puppi_softdropMass  << " jet2 " << Vcand.at(1).puppi_softdropMass   << std::endl;
+//     
+//         }
+//         
       passedGroomedMassCut = true;
       Hist( "Tau21_punzi1"  )->Fill( Vcand.at(0).puppi_tau2/Vcand.at(0).puppi_tau1,weight_ );
       Hist( "Tau21_punzi2"  )->Fill( Vcand.at(1).puppi_tau2/Vcand.at(1).puppi_tau1,weight_ );
@@ -1694,7 +1695,46 @@ bool ExoDiBosonAnalysis::passedDijetSelections(  TString infile  ){
           
       }
     }
+/*
+           if (   data_.EVENT_event ==     150 
+           or data_.EVENT_event ==    8675 
+           or data_.EVENT_event ==   19683 
+           or data_.EVENT_event ==   19706 
+           or data_.EVENT_event ==    8810 
+           or data_.EVENT_event ==   17032 
+           or data_.EVENT_event ==   17184 
+           or data_.EVENT_event ==   10832 
+           or data_.EVENT_event ==   10908 
+           or data_.EVENT_event ==   15692 
+           or data_.EVENT_event ==   17230 
+           or data_.EVENT_event ==   21280 
+           or data_.EVENT_event ==   18628 
+           or data_.EVENT_event ==   18678 
+           or data_.EVENT_event ==   25342 
+           or data_.EVENT_event ==   26678 
+           or data_.EVENT_event ==   26797 
+           or data_.EVENT_event ==     875 
+           or data_.EVENT_event ==     947 
+           or data_.EVENT_event ==    1171 
+           or data_.EVENT_event ==    2432 
+           or data_.EVENT_event ==    2582 
+           or data_.EVENT_event ==    1282 
+                                     
+                                     
+       ){
+   std::ofstream myfile;
+   myfile.open ("Difference.txt",ios::app);
+   myfile << data_.EVENT_event << std::endl;
+   myfile <<"pruned mass jet 1 "<< Vcand.at(0).puppi_softdropMass <<   std::endl;
+   myfile <<"pruned mass jet 2 "<< Vcand.at(1).puppi_softdropMass <<   std::endl;
 
+    myfile << "passed Groomed mass " << passedGroomedMassCut << std::endl;
+    myfile << "found two jets " << foundTwoJets << std::endl;
+    myfile << " passedDeltaEtaCut "<< passedDeltaEtaCut << "  " << fabs( Vcand.at(0).p4.Eta()  - Vcand.at(1).p4.Eta() ) << std::endl;
+    myfile << "passed Mjj cut " << passedMjjCut << std::endl;
+    myfile << std::endl;   
+       
+   }*/
   //Cut flow
   if( !passedGroomedMassCut)  return false;
   nPassedJetPrunedMass_++;
