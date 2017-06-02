@@ -29,8 +29,8 @@ public:
   float                       lheHT                ;
   
   //for samples for Moriond 2017 this has to be an int -> in the data MC this has to be set to float => Problem???
-  //int                         lheNj;
-  float                       lheNj;
+  int                         lheNj;
+  //float                       lheNj;
   float                       genWeight            ;
   float                       qScale               ;
   std::vector<float>   *PDF_x;
