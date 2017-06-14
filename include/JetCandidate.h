@@ -1,7 +1,7 @@
 #ifndef JETCANDIDATE_H
 #define JETCANDIDATE_H
 
-#include "../ExoDiBosonAnalysis/include/RecoCandidate.h"
+#include "RecoCandidate.h"
 
 class JetCandidate : public RecoCandidate {
 

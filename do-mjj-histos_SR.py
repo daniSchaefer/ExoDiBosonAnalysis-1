@@ -18,10 +18,10 @@ def write(fname, histolist):
     base = fname
     outfname = "results/" + base + ".root"
     if opts.noLumiScale:
-        outfname = "/shome/dschafer/CMSSW_7_4_7/src/DijetCombineLimitCode/input/" + base + ".root"
+        outfname =  base + ".root"
     # outfname = base + ".root"
     if opts.doSmeared!="":
-        outfname = "/shome/dschafer/ExoDiBosonAnalysis/forSystematics/histosForShapeUnc/" + base + ".root"
+        outfname = "/usr/users/dschaefer/SFrame_setup/ExoDiBosonAnalysis/forSystematics/histosForShapeUnc/" + base + ".root"
     print "Saving file %s " %outfname
     fout = TFile(outfname,"RECREATE")
     for h in histolist:
@@ -38,25 +38,23 @@ parser.add_option("--mass",dest="mass",action="store",default=1200)
 parser.add_option("--noLumiScale", dest="noLumiScale", action="store_true",default=False)
 parser.add_option("--doSmeared", dest="doSmeared", action="store",default="")
 parser.add_option("--bkg",dest="which_bkg",action="store",default="QCD")
+parser.add_option("--path",dest="path",action="store",default="/storage/jbod/dschaefer/AnalysisOutput/80X/Bkg/Summer16/")
+parser.add_option("--data",dest="data",action="store",default="")
 
 (opts, args) = parser.parse_args(argv)  
 
-path = "/shome/dschafer/AnalysisOutput/80X/Bkg/Summer16/"
+if opts.data != "":
+    opts.dataSB = True
+path =opts.path
 histolist = []
 rebin = 1
 #data_filename = "Data_VVdijet_SB_36400ifb.root"
 #data_filename = "Data_VVdijet_SB_36814ifb_JECv2.root"
 #data_filename = "Data_qVdijet_SB_36814ifb.root"
 #data_filename = "Data_qVdijet_SB_36400ifb.root"
-data_filename = "Data_VVdijet_SR_36814ifb.root"
+data_filename = opts.data+".root"
 #data_filename = "JetHT_Run2016B_qVdijet_SR.root"
 #data_filename = "JetHT_Run2016B_rerereco_qVdijet_SR.root"
-data_path = "/shome/dschafer/AnalysisOutput/80X/Data/ReReco2016/"
-signal_path = "/shome/dschafer/AnalysisOutput/80X/SignalMC/Summer16/"
-
-if opts.doSmeared!= "":
-    signal_path = "/shome/dschafer/AnalysisOutput/80X/SignalMC/Summer16/Sys/"
-
 
 #filename = "QCD_Spring16_Ptbinned_pythia8_qVdijet.root"
 #filename = "QCD_Spring16_Ptbinned_pythia8_qVdijet_SB_test.root"
@@ -69,11 +67,11 @@ if opts.doSmeared!= "":
 #filename = "QCD_pythia8_qVdijet_SR.root"
 #filename = ""
 #filename = "QCD_pythia8_qVdijet_SB_test.root"
-filename = "QCD_pythia8_qVdijet_SR.root"
+filename = opts.which_bkg +".root"
 #filename = "QCD_pythia8_qVdijet_SR.root"
 #filename = "QCD_madgraph_pythia8_VVdijet_SB.root"
-if (opts.which_bkg).find("W")!=-1:
-    filename = "ExoDiBosonAnalysis.Wjets_VVdijet_SR.root"
+#if (opts.which_bkg).find("W")!=-1:
+    #filename = "ExoDiBosonAnalysis.Wjets_VVdijet_SR.root"
 
 # ---------------------------------------------------------------------------------------------------------------------------  
 
@@ -112,14 +110,11 @@ if opts.dataSB:
         name = "ReRecoData_qVdijet_test"
         #name = "Data_runB_qVdijet"
     filename = data_filename
-    path = data_path
 if opts.signal !="":
-    path = signal_path
     filename =   "ExoDiBosonAnalysis."+opts.signal+"_13TeV_"+str(opts.mass)+"GeV.VV.root"
     if opts.signal.find("Qstar")!=-1:
         filename =   "ExoDiBosonAnalysis."+opts.signal+"_13TeV_"+str(opts.mass)+"GeV.qV.root"
 if opts.doSmeared!= "":
-    path = signal_path
     filename =   "ExoDiBosonAnalysis."+opts.signal+"_13TeV_"+str(opts.mass)+"GeV."+opts.doSmeared+".root"
 for root, _, files in os.walk(path):
   for f in files:
@@ -385,12 +380,14 @@ for root, _, files in os.walk(path):
                         
             # qV signal region (fill histos for W/Z and HP/LP):
             elif (name.find("q")!=-1 or name.find("Qstar")!=-1) and name.find("SB")==-1:
-                print " qVdijet SR" 
+                 
                 if ( event.MVV < 1050.): continue
                 if ( (65. <= event.jet_puppi_softdrop_jet2 <= 105. and event.jet_puppi_tau2tau1_jet2 <= HPcut) or (65. <= event.jet_puppi_softdrop_jet1 <= 105. and event.jet_puppi_tau2tau1_jet1 <= HPcut)):
                     qVHP.Fill(event.MVV,event.weight) #qVHP
                     nEvents[0]+=1
-                    if (1100 < event.MVV < 1700): 
+                    if (1500 < event.MVV < 2500):
+                        if (event.jet_puppi_softdrop_jet1 <= 65) and (event.jet_puppi_softdrop_jet1 >= 100):
+                            if event.jet_pt_jet1 < 2050. and event.jet_pt_jet1 > 1950.:
                                 print "======================================="
                                 print "==============HP===================="
                                 print "inv mass: "+str(event.MVV)

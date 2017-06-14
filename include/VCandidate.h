@@ -1,7 +1,7 @@
 #ifndef VCANDIDATE_H
 #define VCANDIDATE_H
 
-#include "../ExoDiBosonAnalysis/include/RecoCandidate.h"
+#include "RecoCandidate.h"
 
 class VCandidate : public RecoCandidate {
 

@@ -4,7 +4,7 @@
 #include "../ExoDiBosonAnalysis/include/NtupleManager.h"
 #include "../ExoDiBosonAnalysis/include/MatchingTools.h"
 #include "../ExoDiBosonAnalysis/include/SomeTools.h"
-#include "LHAPDF/LHAPDF.h"
+#include "../ExoDiBosonAnalysis/include/LHAPDF/LHAPDF.h"
 
 #include <iostream>
 #include <TRandom.h>
