@@ -99,6 +99,7 @@ public:
   float getPUPPIweight_rec(float puppipt, float puppieta );
 
   void setPredictedDistribution();
+  void fillTestHistosQstarGen(InputData& data,bool isMC,TLorentzVector VCand0, double groomedMassV0, double tau21_0, TLorentzVector VCand1,double groomedMassV1,double tau21_1);
      
 private:
   ClassDef( ExoDiBosonAnalysis, 0 );  
@@ -336,6 +337,7 @@ private:
   float jet_mass_pruned_Z1;
   float jet_mass_softdrop_jet1; 
   float jet_tau2tau1_jet1; 
+  bool jet_mergedTruth_jet1; 
   
   float jet_pt_jet2; 
   float jet_eta_jet2; 
@@ -346,6 +348,7 @@ private:
   float jet_mass_pruned_Z2;
   float jet_mass_softdrop_jet2; 
   float jet_tau2tau1_jet2; 
+  bool jet_mergedTruth_jet2; 
   
   
   float jet1_rcn        ;

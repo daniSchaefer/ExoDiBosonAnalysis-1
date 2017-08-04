@@ -218,10 +218,11 @@ void ExoDiBosonAnalysis::initWeight( void ){
   // std::string scenario = "PUS25ns";
   // if( infile.Contains("16Dec2015") or infile.Contains("Fall15") ) scenario = "PUS25ns76X";
  // else
-  std::string scenario = "PUS25ns80X";
+  std::string scenario = "PUS25ns80X_full2016";
   if( infile.Contains("Summer16") || infile.Contains("Run2016") || infile.Contains("postMoriond")) scenario = "PUS25ns80X_full2016";
   if( infile.Contains("Summer16") and infile.Contains("Flat")) scenario = "PU25ns80X_flatPU";
   if( infile.Contains("Fall15") ) scenario = "PUS25ns76X";
+  if( infile.Contains("Spring16")) scenario = "PUS25ns80X";
   // if( infile.Contains("Spring15") ) PUProfileData_ = "/mnt/t3nfs01/data01/shome/thaarres/EXOVVAnalysisRunII/ExoDiBosonAnalysis/data/biasXsec_72000.root";
   PUWeight::Scenario sc = PUWeight_.toScenario(scenario);
   PUWeight_.initPUWeights(PUProfileData_,sc);
@@ -358,6 +359,9 @@ void ExoDiBosonAnalysis::BeginInputData( const SInputData& ) throw( SError ) {
   DeclareVariable( jet_puppi_tau2tau1_jet2   , "jet_puppi_tau2tau1_jet2"  , OutputTreeName_.c_str() );
   DeclareVariable( jet_ddt_jet1              , "jet_ddt_jet1"             , OutputTreeName_.c_str() );
   DeclareVariable( jet_ddt_jet2              , "jet_ddt_jet2"             , OutputTreeName_.c_str() );
+  DeclareVariable( jet_mergedTruth_jet1      , "jet_mergedTruth_jet1"     , OutputTreeName_.c_str() );
+  DeclareVariable( jet_mergedTruth_jet2      , "jet_mergedTruth_jet2"     , OutputTreeName_.c_str() );
+  
   
   DeclareVariable( jet1_rcn       , "jet1_rcn"       , OutputTreeName_.c_str() );
   DeclareVariable( jet1_cm        , "jet1_cm"        , OutputTreeName_.c_str() );
@@ -379,6 +383,7 @@ void ExoDiBosonAnalysis::BeginInputData( const SInputData& ) throw( SError ) {
   DeclareVariable( jet1_cemf      , "jet1_cemf"      , OutputTreeName_.c_str() );
   DeclareVariable( jet1_charge    , "jet1_charge"    , OutputTreeName_.c_str() );
   DeclareVariable( jet1_area      , "jet1_area"      , OutputTreeName_.c_str() );
+
   
   DeclareVariable( jet2_rcn       , "jet2_rcn"       , OutputTreeName_.c_str() );
   DeclareVariable( jet2_cm        , "jet2_cm"        , OutputTreeName_.c_str() );
@@ -400,7 +405,7 @@ void ExoDiBosonAnalysis::BeginInputData( const SInputData& ) throw( SError ) {
   DeclareVariable( jet2_cemf      , "jet2_cemf"      , OutputTreeName_.c_str() );
   DeclareVariable( jet2_charge    , "jet2_charge"    , OutputTreeName_.c_str() );
   DeclareVariable( jet2_area      , "jet2_area"      , OutputTreeName_.c_str() );
-  
+
 
   // DeclareVariable( sum_genweights       , "sum_genweights"        , OutputTreeName_.c_str() );
   // DeclareVariable( jet_rho              , "jet_rho"            , OutputTreeName_.c_str() );
@@ -569,17 +574,18 @@ void ExoDiBosonAnalysis::ExecuteEvent( const SInputData&, Double_t ) throw( SErr
   calcPDFweight(1);
   
   
-  if( Channel_ == "VVdijet" || Channel_ == "qVdijet" ){
+  if( Channel_.find("VVdijet")!=std::string::npos || Channel_.find("qVdijet")!=std::string::npos ){
       m_logger << DEBUG << " event " << data_.EVENT_event << SLogger::endmsg;
      //m_logger << INFO << "Channel : VVdijet of qVdijet "<< SLogger::endmsg; 
 
       
       
       
-      
     TString infile = TString(this->GetHistInputFile()->GetName());
     setWeight(infile);
     //PrintPdgIDs(data_);
+     if(runOnMC_)
+    {
     double cos_theta1 = CalculateCOSTheta1(data_, 1);
     Hist("gen_COS_Theta1")->Fill(cos_theta1);
     
@@ -588,6 +594,7 @@ void ExoDiBosonAnalysis::ExecuteEvent( const SInputData&, Double_t ) throw( SErr
     {
         double M_graviton = getGravitonGenMass(data_);
         Hist("Mjj_allHadGen")->Fill(M_graviton,weight_ );
+    }
     }
     
 //     if(wmax_     <= weight_){ wmax_ = weight_;}
@@ -618,8 +625,8 @@ void ExoDiBosonAnalysis::ExecuteEvent( const SInputData&, Double_t ) throw( SErr
         if( (*data_.genParticle_pt).at(p) < 0.1) continue;
         bool isDaughter = false;
         for( unsigned int d = 0; d < (*data_.genParticle_mother)[p].size(); ++d ) {
-          if(Channel_ == "qVdijet" && fabs((*data_.genParticle_mother)[p][d]) != 4000002 and fabs((*data_.genParticle_mother)[p][d]) != 4000001  ) continue;
-          if(Channel_ == "VVdijet" && fabs((*data_.genParticle_mother)[p][d]) != 32 and fabs((*data_.genParticle_mother)[p][d]) != 34 and fabs((*data_.genParticle_mother)[p][d]) != 39 and fabs((*data_.genParticle_mother)[p][d]) != 9000001 and fabs((*data_.genParticle_mother)[p][d]) != 9000002) continue;
+          if(Channel_.find("qVdijet")!=std::string::npos && fabs((*data_.genParticle_mother)[p][d]) != 4000002 and fabs((*data_.genParticle_mother)[p][d]) != 4000001  ) continue;
+          if(Channel_.find("VVdijet")!=std::string::npos && fabs((*data_.genParticle_mother)[p][d]) != 32 and fabs((*data_.genParticle_mother)[p][d]) != 34 and fabs((*data_.genParticle_mother)[p][d]) != 39 and fabs((*data_.genParticle_mother)[p][d]) != 9000001 and fabs((*data_.genParticle_mother)[p][d]) != 9000002) continue;
           isDaughter = true ;
         }
         if(!isDaughter) continue;
@@ -750,7 +757,7 @@ void ExoDiBosonAnalysis::ExecuteEvent( const SInputData&, Double_t ) throw( SErr
         }
       }
 
-      else if( Channel_ == "qVdijet"){
+      else if( Channel_.find("qVdijet")!=std::string::npos){
         channel = -1;
         for( int i = 0; i < abs(Vcand.size()) ; i++){
 
@@ -799,9 +806,22 @@ void ExoDiBosonAnalysis::ExecuteEvent( const SInputData&, Double_t ) throw( SErr
           }
         }
       }
-      if( Channel_ == "qVdijet"){
+      if( Channel_.find("qVdijet")!=std::string::npos){
         if(jetINDX1 == 0) jetINDX2 = 1;
         else if (jetINDX1 == 1) jetINDX2 = 0;
+        if( Channel_.find("for2Dfit")!=std::string::npos){
+            jetINDX1 = 0;
+            jetINDX2 = 1;
+            
+            //if ( TMath::Abs(Vcand.at(0).puppi_softdropMass-80 ) > TMath::Abs(Vcand.at(1).puppi_softdropMass-80 ))
+            if ( TMath::Abs(Vcand.at(0).puppi_softdropMass) < TMath::Abs(Vcand.at(1).puppi_softdropMass))
+            {
+                jetINDX1 = 1;
+                jetINDX2 = 0;
+            } 
+        }   
+        
+        
       }
       else if( Channel_ == "VVdijet"){
         jetINDX1 = 0;
@@ -829,6 +849,8 @@ void ExoDiBosonAnalysis::ExecuteEvent( const SInputData&, Double_t ) throw( SErr
       jet_eta_jet2 = Vcand.at(jetINDX2).p4.Eta();
       jet_phi_jet2 = Vcand.at(jetINDX2).p4.Phi();
       jet_tau2tau1_jet2 = Vcand.at(jetINDX2).tau2/Vcand.at(jetINDX2).tau1;
+      jet_mergedTruth_jet2 = mergedTruth(data_,Vcand.at(jetINDX2).p4,runOnMC_);
+      jet_mergedTruth_jet1 = mergedTruth(data_,Vcand.at(jetINDX1).p4,runOnMC_);
       nPVs = data_.nPVs;
 
       jet1_puppi_softdrop = Vcand.at(jetINDX1).puppi_softdropMass;
@@ -870,6 +892,7 @@ void ExoDiBosonAnalysis::ExecuteEvent( const SInputData&, Double_t ) throw( SErr
     jet1_cemf      = Vcand.at(jetINDX1).cemf     ;
     jet1_charge    = Vcand.at(jetINDX1).charge   ;
     jet1_area      = Vcand.at(jetINDX1).area     ;
+   
     
     jet2_rcn       = Vcand.at(jetINDX2).rcn      ;
     jet2_cm        = Vcand.at(jetINDX2).cm       ;
@@ -1477,6 +1500,7 @@ bool ExoDiBosonAnalysis::passedDijetSelections(  TString infile  ){
   if( !passedMjjCut) return false;
   nPassedMjj_++;
     
+  fillTestHistosQstarGen(data_,runOnMC_,Vcand.at(0).p4,Vcand.at(0).puppi_softdropMass, Vcand.at(0).puppi_tau2/Vcand.at(0).puppi_tau1, Vcand.at(1).p4,Vcand.at(1).puppi_softdropMass,Vcand.at(1).puppi_tau2/Vcand.at(1).puppi_tau1);
   Hist( "DeltaEta")	->Fill( fabs( Vcand.at(0).p4.Eta()  - Vcand.at(1).p4.Eta() ) , weight_ ); 	
   Hist( "DeltaR")	  ->Fill( (Vcand.at(0).p4).DeltaR(Vcand.at(1).p4) , weight_ ); 
   
@@ -1611,7 +1635,7 @@ bool ExoDiBosonAnalysis::passedDijetSelections(  TString infile  ){
 //     myfile.open("Difference.txt",ios::app);
 //     myfile << " passedGroomedMassCut  set to "<< passedGroomedMassCut << std::endl;
 //    }
-    if (Channel_ == "qVdijet"){
+    if (Channel_.find("qVdijet")!=std::string::npos){
       for( int i = 0; i < abs(Vcand.size()) ; i++){
         if(!(Vcand.at(i).prunedMass > mWLow_ && Vcand.at(i).prunedMass <= mZHigh_) ) continue;
         passedGroomedMassCut = true;
@@ -1631,7 +1655,7 @@ bool ExoDiBosonAnalysis::passedDijetSelections(  TString infile  ){
 //       }
       
       
-    if(Channel_ == "VVdijet" && Vcand.at(0).puppi_softdropMass > mWLow_ && Vcand.at(0).puppi_softdropMass <= mZHigh_ && Vcand.at(1).puppi_softdropMass > mWLow_ && Vcand.at(1).puppi_softdropMass <= mZHigh_ ){
+    if(Channel_.find("VVdijet")!=std::string::npos && Vcand.at(0).puppi_softdropMass > mWLow_ && Vcand.at(0).puppi_softdropMass <= mZHigh_ && Vcand.at(1).puppi_softdropMass > mWLow_ && Vcand.at(1).puppi_softdropMass <= mZHigh_ ){
 //          if (data_.EVENT_event == 27259 ){
 //        
 //         std::ofstream myfile;
@@ -1658,7 +1682,7 @@ bool ExoDiBosonAnalysis::passedDijetSelections(  TString infile  ){
       }
     }
 
-      if (Channel_ == "qVdijet"){
+      if (Channel_.find("qVdijet")!=std::string::npos){
         for( int i = 0; i < abs(Vcand.size()) ; i++){
           if(!(Vcand.at(i).puppi_softdropMass > mWLow_ && Vcand.at(i).puppi_softdropMass <= mZHigh_) ) continue;
           passedGroomedMassCut = true;
@@ -1736,6 +1760,9 @@ bool ExoDiBosonAnalysis::passedDijetSelections(  TString infile  ){
        
    }*/
   //Cut flow
+  
+  if( Channel_.find("for2Dfit")!=std::string::npos && Channel_.find("qV")!=std::string::npos && passedDeltaEtaCut && foundTwoJets && passedMjjCut) return true;
+  
   if( !passedGroomedMassCut)  return false;
   nPassedJetPrunedMass_++;
   
@@ -3944,6 +3971,67 @@ bool ExoDiBosonAnalysis::preparationOfHistosForPUreweighting()
      }
 }
 
+void ExoDiBosonAnalysis::fillTestHistosQstarGen(InputData& data,bool isMC,TLorentzVector VCand0, double groomedMassV0, double tau21_0, TLorentzVector VCand1,double groomedMassV1,double tau21_1)
+{
+  if(isMC){  
+  int indexV = findGenV(data,isMC);
+  int indexQ = findGenQuarkJet(data,isMC);
+  TLorentzVector V = getGENLVParticle(data,indexV);
+  TLorentzVector Q = getGENLVParticle(data,indexQ);
+  Hist("Mjet_gen_V")->Fill(V.M());
+  Hist("Mjet_gen_Q")->Fill(Q.M());
+  
+  double Vmass = groomedMassV0;
+  double Qmass = groomedMassV1;
+  TLorentzVector Vreco = VCand0;
+  TLorentzVector Qreco = VCand1;
+  
+  
+//   if(Vmass < Qmass)
+//   {
+//    Vmass = groomedMassV1;
+//    Qmass = groomedMassV0;
+//    Vreco = VCand1;
+//    Qreco = VCand0;
+//    
+//   }
+  
+//    if( TMath::Abs( Vmass -80) > TMath::Abs(Qmass-80))
+//   {
+//    Vmass = groomedMassV1;
+//    Qmass = groomedMassV0;
+//    Vreco = VCand1;
+//    Qreco = VCand0;
+//    
+//   }
+  
+    if(tau21_1 < tau21_0)
+  {
+   Vmass = groomedMassV1;
+   Qmass = groomedMassV0;
+   Vreco = VCand1;
+   Qreco = VCand0;
+   
+  }
+  
+  Hist("Mjet_reco_V")->Fill(Vmass,weight_);
+  if(mergedTruth(data_,Vreco,isMC))
+  {
+   Hist("Mjet_reco_V_res")->Fill(Vmass,weight_);   
+  }
+  else
+  {
+   Hist("Mjet_reco_V_nonres")->Fill(Vmass,weight_);   
+  }
+  
+  Hist("Mjet_reco_Q")->Fill(Qmass,weight_);
+   if (Q.DeltaR(Qreco) > Q.DeltaR(Vreco))
+   {
+     Hist("QVjet_missID")->Fill(weight_);   
+   }
+    
+  } 
+}
 
 
 

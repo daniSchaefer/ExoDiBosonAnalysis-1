@@ -16,4 +16,11 @@ void PrintPdgIDs(InputData& t21);
 double getGravitonGenMass(InputData& data);
 TLorentzVector getGENLVParticle(InputData& data, int index);
 bool isHadronicEvent(InputData& data);
+
+int findGenV(InputData& data,bool isMC);
+int findGenQuarkJet(InputData& data,bool isMC);
+
+bool mergedTruth(InputData& data, TLorentzVector AK8jet,bool isMC);
+std::vector<int> getGenWZquarks(InputData &data,bool isMC);
+bool containsWZ(InputData &data,std::vector<int> mothers);
 #endif

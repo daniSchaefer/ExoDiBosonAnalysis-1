@@ -7,7 +7,7 @@ from array import array
 import ROOT
 import time
 import CMS_lumi, tdrstyle
-from ROOT import gROOT, TPaveLabel, gStyle, gSystem, TGaxis, TStyle, TLatex, TString, TF1,TFile,TLine, TLegend, TH1D,TH1F,TH2D,THStack,TChain, TCanvas, TMatrixDSym, TMath, TText, TPad, TPaveText, TMultiGraph, TGraphAsymmErrors, TGraph, TH1, TH2, TH2F
+from ROOT import gROOT, TPaveLabel, gStyle, gSystem, TGaxis, TStyle, TLatex, TString, TF1,TFile,TLine, TLegend, TH1D,TH1F,TH2D,THStack,TChain, TCanvas, TMatrixDSym, TMath, TText, TPad, TPaveText, TMultiGraph, TGraphAsymmErrors, TGraph, TH1, TH2, TH2F, TLine, TColor
 
 from array import array
 
@@ -37,9 +37,9 @@ if options.lumi !="":
     lumi = options.lumi+" fb^{-1}"
 CMS_lumi.lumi_13TeV = lumi#"36.4 fb^{-1}"
 CMS_lumi.writeExtraText = 1
-CMS_lumi.extraText = "Preliminary"
+CMS_lumi.extraText = ""
 CMS_lumi.lumi_sqrtS = "13 TeV"
-iPos = 0
+iPos = 10
 if( iPos==0 ): CMS_lumi.relPosX = 0.12
 iPeriod = 4
 
@@ -55,6 +55,7 @@ def get_palette(mode):
  palette['gv'] = [] 
  colors = ['#40004b','#762a83','#9970ab','#de77ae','#a6dba0','#5aae61','#1b7837','#00441b','#92c5de','#4393c3','#2166ac','#053061']
  colors = ['#762a83','#de77ae','#a6dba0','#4393c3','#4393c3']
+ colors = ['#000000','#0000CD','#228b22']
  for c in colors:
   palette['gv'].append(c)
  return palette[mode]
@@ -67,26 +68,27 @@ def sigmoid(x,p):
     # k == 1/sigma*Ethres, x0 = EThreshold
 
 def getLegend():
-  l = TLegend(0.4304361,0.263552,0.708124,0.4624967)
-  l.SetTextSize(0.033)
+  l = TLegend(0.4304361,0.263552,0.808124,0.5624967)
+  l.SetTextSize(0.038)
   l.SetLineColor(0)
   l.SetShadowColor(0)
-  l.SetLineStyle(1)
-  l.SetLineWidth(1)
+  l.SetTextFont(42)
+  #l.SetLineStyle(1)
+  #l.SetLineWidth(1)
   l.SetFillColor(0)
   l.SetFillStyle(0)
   l.SetMargin(0.35)
-  l.SetHeader(options.run)
+  l.SetHeader("")#options.run)
   return l
 
 def getPave():
-  addInfo = TPaveText(0.5604027,0.846131,0.8288591,0.9419643,"NDC")
+  addInfo = TPaveText(0.4604027,0.846131,0.8288591,0.9419643,"NDC")
   addInfo.SetFillColor(0)
   addInfo.SetLineColor(0)
   addInfo.SetFillStyle(0)
   addInfo.SetBorderSize(0)
   addInfo.SetTextFont(42)
-  addInfo.SetTextSize(0.030)
+  addInfo.SetTextSize(0.042)
   addInfo.SetTextAlign(12)
   return addInfo
 
@@ -95,8 +97,8 @@ def getCanvas():
   c.GetWindowHeight()
   c.GetWindowWidth()
   c.SetTitle("")
-  c.SetGridx()
-  c.SetGridy()
+  #c.SetGridx()
+  #c.SetGridy()
   return c
 
 def formatGraph(c,mg,label,bin1,bin2):
@@ -116,13 +118,17 @@ def formatGraph(c,mg,label,bin1,bin2):
 
 def setEffStyle(eff,color,marker):
   eff.SetMarkerStyle(marker)
-  eff.SetMarkerSize(1.1)
+  eff.SetMarkerSize(1.5)
   eff.SetMarkerColor(color)
   eff.SetLineColor( color)
   
 def doFit(eff,l,histtmp,end):
   #fit_x3 = TF1("fit_x3",sigmoid, 0., 2000., 2)
   fit_x3 = TF1("fit_x3","1./(1+exp(-[1]*(x-[0])))",0.,2000.)
+  fit_x3.SetLineColor(ROOT.kBlue)
+  trans = TColor.GetColorTransparent(ROOT.kWhite, 0.00001);
+  fit_x3.SetLineColor(trans)
+  
   #print fit_x3.Eval(1000)
   fit_x3.SetParameters(1.0,0.01)
   start = histtmp.GetBinCenter(histtmp.FindFirstBinAbove(0.75))
@@ -135,7 +141,7 @@ def doFit(eff,l,histtmp,end):
   print mass
   print "######"
   #l.AddEntry(eff, "%s: >99 %% : M_{jj} > %.0f GeV" %(histtmp.GetTitle(),mass), "lep" )
-  l.AddEntry(0, ">99 %%: M_{jj} > %.0f GeV" %(mass), "" )
+  l.AddEntry(0, ">99%%: m_{jj} > %.0f GeV" %(mass), "" )
   return fit
     
 
@@ -148,6 +154,9 @@ def getTriggerEff(trigger,f):
 
 if __name__== '__main__':
     
+    line = TLine(1050,0,1050,1.2)
+    line.SetLineWidth(2)
+    line.SetLineColor(ROOT.kRed)
 
     fname  = options.filename
     outdir = options.outdir
@@ -158,7 +167,7 @@ if __name__== '__main__':
     print isMC
     
     inputdir = "../../AnalysisOutput/80X/Data/"
-    inputdir = "/mnt/t3nfs01/data01/shome/dschafer/AnalysisOutput/80X/Data/SingleMuon/"
+    inputdir = "/storage/jbod/dschaefer/AnalysisOutput/80X/Data/SingleMuon/"
     f = openRootFile(fname,inputdir)
     
     #e = getTriggerEff("HT800_noTag",f)
@@ -190,7 +199,7 @@ if __name__== '__main__':
     file = TFile.Open(inputdir+fname, 'READ')   
     palette = get_palette('gv')
     col = ROOT.TColor()
-    markerStyles = [20,22,26]
+    markerStyles = [20,21,22]
 
     colorcodes = [18,17,16,15,11,20,23,29,30,32]
     pal = array('i', colorcodes)
@@ -362,10 +371,10 @@ if __name__== '__main__':
     #htmp = TH1F(file.Get('Substructure_SD'))
     #htmp.Draw();
     
-    #============================ NO V-tag ==================================================================
+    #============================ NO V tag ==================================================================
     if (options.plot).find("turnOn")!=-1 or (options.plot).find("all")!=-1:
         label = 'Dijet invariant mass (GeV)'
-        addInfo1 = "No V-tag"
+        addInfo1 = "No V tag"
         addInfo2 = ''
 
         bins1 = range (700,1100,20)
@@ -442,9 +451,9 @@ if __name__== '__main__':
             histtmp.Divide(hden)
             setEffStyle(eff,col.GetColor(palette[i]),markerStyles[i])
             if i==1:
-                histtmp.SetTitle("OR (HT)")
+                histtmp.SetTitle("OR H_{T}")
             if i==2:
-                histtmp.SetTitle("OR (SU)")
+                histtmp.SetTitle("OR trimmed mass")
             myfit = doFit(eff,l,histtmp,1300.)
             mg.Add(eff)
             l.AddEntry(eff, histtmp.GetTitle(), "lep" )
@@ -545,10 +554,10 @@ if __name__== '__main__':
 
 
     
-    # #-------------------------vs Mjj, Double V-tag-------------------------------#
+    # #-------------------------vs Mjj, Double V tag-------------------------------#
         label = 'Dijet invariant mass (GeV)'
-        addInfo1 = "Double V-tag"
-        addInfo2 = '65 GeV < M_{P} < 105 GeV'
+        addInfo1 = "Double V tag"
+        addInfo2 = '65 < m_{jet,1/2} < 105 GeV'
         
         bins1 = range (700,1100,40)
         bins2 = range (1100,1300,60)
@@ -600,6 +609,9 @@ if __name__== '__main__':
     
         formatGraph(c,mg,label,bin1,bin2)
         mg.GetXaxis().SetNdivisions(404)
+        line2 = TLine(650,1,2050,1)
+        line2.SetLineStyle(2)
+        line2.Draw('same')
         
         addInfo.Draw()
         c.Update()
@@ -665,22 +677,29 @@ if __name__== '__main__':
                 eff.Divide(histtmp,hden)
                 histtmp.Divide(hden)
                 setEffStyle(eff,col.GetColor(palette[i]),markerStyles[i]) 
+                if i==0:
+                    histtmp.SetTitle("All triggers")
                 if i==1:
-                    histtmp.SetTitle("OR (HT)")
+                    histtmp.SetTitle("H_{T}-based triggers")
                 if i==2:
-                    histtmp.SetTitle("OR (SU)")
+                    histtmp.SetTitle("Substructure triggers")
+                l.AddEntry(eff, histtmp.GetTitle(), "lep" )    
                 myfit = doFit(eff,l,histtmp,1250.)
                 mg.Add(eff)
-                l.AddEntry(eff, histtmp.GetTitle(), "lep" )
                 i += 1
 
         c = getCanvas()
         mg.Draw("AP")
         l.Draw("same")
+        line.Draw("same")
 
         formatGraph(c,mg,label,bin1,bin2)
         mg.GetXaxis().SetNdivisions(404)
         addInfo.Draw()
+        line2 = TLine(650,1,2050,1)
+        line2.SetLineStyle(2)
+        line2.Draw('same')
+
         c.Update()
         if options.save:
             canvasname ="%striggereffMjj-ALL_DoubleTag_run%s.pdf"%(outpath,options.run)
@@ -694,8 +713,8 @@ if __name__== '__main__':
     
     # #-------------------------vs Mjj, Single V-tag-------------------------------#
         label = 'Dijet invariant mass (GeV)'
-        addInfo1 = "Single V-tag"
-        addInfo2 = '65 GeV < M_{P} < 105 GeV'
+        addInfo1 = "Single V tag"
+        addInfo2 = '65 < m_{jet} < 105 GeV'
         
         bins1 = range (700,1100,20)
         bins2 = range (1100,1300,50)
@@ -786,6 +805,9 @@ if __name__== '__main__':
         formatGraph(c,mg,label,bin1,bin2)
         mg.GetXaxis().SetNdivisions(404)
         addInfo.Draw()
+        line2 = TLine(650,1,2050,1)
+        line2.SetLineStyle(2)
+        line2.Draw('same')
         c.Update()
         if options.save:
             canvasname ="%striggereffMjj-SUBST_SingleTag_run%s.pdf"%(outpath,options.run)
@@ -808,22 +830,26 @@ if __name__== '__main__':
             eff.Divide(histtmp,hden)
             histtmp.Divide(hden)
             setEffStyle(eff,col.GetColor(palette[i]),markerStyles[i])
+            if i==0:
+                histtmp.SetTitle("All triggers")
             if i==1:
-                histtmp.SetTitle("OR (HT)")
+                histtmp.SetTitle("H_{T}-based triggers")
             if i==2:
-                histtmp.SetTitle("OR (SU)")
+                histtmp.SetTitle("Substructure triggers")
+            l.AddEntry(eff, histtmp.GetTitle(), "lep" )
             myfit = doFit(eff,l,histtmp,1250.)
             mg.Add(eff)
-            l.AddEntry(eff, histtmp.GetTitle(), "lep" )
             i += 1
     
         c = getCanvas()
         mg.Draw("AP")
         l.Draw("same")
+        line.Draw("same")
         
         formatGraph(c,mg,label,bin1,bin2)
         mg.GetXaxis().SetNdivisions(404)
         addInfo.Draw()
+        line2.Draw('same')
         c.Update()
         if options.save:
             canvasname ="%striggereffMjj-ALL_SingleTag_run%s.pdf"%(outpath,options.run)

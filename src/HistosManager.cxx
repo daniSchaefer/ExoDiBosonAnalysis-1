@@ -21,6 +21,18 @@ HistosManager::~HistosManager( void ){
 ////////////////////////////////////////////////////////////////////
 void HistosManager::bookHistos( std::string Channel_ ){
   theAnalysis_->Book( TH1F( "gen_COS_Theta1"           , "cos(theta1) ", 100	, -1.	, 1.	) );  
+  theAnalysis_->Book( TH1F( "Mjet_gen_V"           , "m_jet ", 100	, 0.	, 300.	) ); 
+  theAnalysis_->Book( TH1F( "Mjet_gen_Q"           , "m_jet ", 100	, 0.	, 300.	) ); 
+  theAnalysis_->Book( TH1F( "Mjet_reco_V"           , "m_jet ", 100	, 0.	, 300.	) ); 
+  theAnalysis_->Book( TH1F( "Mjet_reco_Q"           , "m_jet ", 100	, 0.	, 300.	) ); 
+  theAnalysis_->Book( TH1F( "Mjet_gen_V"           , "m_jet ", 100	, 0.	, 300.	) ); 
+  theAnalysis_->Book( TH1F( "Mjet_reco_V_res"      , "m_jet ", 100	, 0.	, 300.	) );
+  theAnalysis_->Book( TH1F( "Mjet_reco_V_nonres"  , "m_jet ", 100	, 0.	, 300.	) );
+  
+  theAnalysis_->Book( TH1F( "QVjet_missID"           , "miss ID ", 2	, 0.	, 1.	) ); 
+  
+  
+  
   theAnalysis_->Book( TH1F( "Mjj_allHadGen"           , "m_jj_allHadronicGen", 1000	, 0.	, 7000.	) );  
   theAnalysis_->Book( TH1F( "PrunedMass_200GeV"       ,   "PrunedMass_200GeV"       , 200, 0, 200 ) );
   theAnalysis_->Book( TH1F( "PuppiPrunedMass_200GeV"  ,   "PuppiPrunedMass_200GeV"  , 200, 0, 200 ) );

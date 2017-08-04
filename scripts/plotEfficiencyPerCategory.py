@@ -438,7 +438,7 @@ if __name__=="__main__":
 
     else:
         signals = ["BulkWW","BulkZZ","Zprime",'WprimeWZ']
-        sigchannel = "ZZ"
+        sigchannel = "WW"
         #signals = ["BulkWW","Zprime","BulkZZ",'WprimeWZ']
         #signals=  ["QstarQW","QstarQZ"]
         

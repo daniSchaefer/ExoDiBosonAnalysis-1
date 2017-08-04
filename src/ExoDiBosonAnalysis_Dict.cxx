@@ -38,28 +38,28 @@
 namespace std {} using namespace std;
 
 // Header files passed as explicit arguments
-#include "include/InputData.h"
+#include "include/BTagWeight.h"
+#include "include/JetCandidate.h"
 #include "include/BinomialEff.h"
-#include "include/PUWeight.h"
 #include "include/LumiWeight.h"
-#include "include/VCandidate.h"
+#include "include/InputData.h"
 #include "include/EquationSolver.h"
+#include "include/PUWeight.h"
+#include "include/METCandidate.h"
+#include "include/MuonCandidate.h"
+#include "include/HistosManager.h"
 #include "include/PredictedDistribution.h"
 #include "include/LHEWeight.h"
-#include "include/Utilities.h"
-#include "include/MuonCandidate.h"
-#include "include/JetCandidate.h"
-#include "include/HistosManager.h"
-#include "include/ExoDiBosonAnalysis.h"
 #include "include/SomeTools.h"
 #include "include/NtupleManager.h"
+#include "include/VCandidate.h"
 #include "include/RecoCandidate.h"
-#include "include/BTagWeight.h"
+#include "include/Utilities.h"
 #include "include/LeptonCandidate.h"
 #include "include/HLTWeight.h"
 #include "include/HiggsCandidate.h"
-#include "include/METCandidate.h"
 #include "include/MatchingTools.h"
+#include "include/ExoDiBosonAnalysis.h"
 
 // Header files passed via #pragma extra_include
 
@@ -76,7 +76,7 @@ namespace ROOT {
       ::ExoDiBosonAnalysis *ptr = 0;
       static ::TVirtualIsAProxy* isa_proxy = new ::TInstrumentedIsAProxy< ::ExoDiBosonAnalysis >(0);
       static ::ROOT::TGenericClassInfo 
-         instance("ExoDiBosonAnalysis", ::ExoDiBosonAnalysis::Class_Version(), "ExoDiBosonAnalysis/include/ExoDiBosonAnalysis.h", 30,
+         instance("ExoDiBosonAnalysis", ::ExoDiBosonAnalysis::Class_Version(), "include/ExoDiBosonAnalysis.h", 30,
                   typeid(::ExoDiBosonAnalysis), ::ROOT::Internal::DefineBehavior(ptr, ptr),
                   &::ExoDiBosonAnalysis::Dictionary, isa_proxy, 4,
                   sizeof(::ExoDiBosonAnalysis) );
@@ -481,35 +481,35 @@ namespace ROOT {
 namespace {
   void TriggerDictionaryInitialization_ExoDiBosonAnalysis_Dict_Impl() {
     static const char* headers[] = {
-"include/InputData.h",
+"include/BTagWeight.h",
+"include/JetCandidate.h",
 "include/BinomialEff.h",
-"include/PUWeight.h",
 "include/LumiWeight.h",
-"include/VCandidate.h",
+"include/InputData.h",
 "include/EquationSolver.h",
+"include/PUWeight.h",
+"include/METCandidate.h",
+"include/MuonCandidate.h",
+"include/HistosManager.h",
 "include/PredictedDistribution.h",
 "include/LHEWeight.h",
-"include/Utilities.h",
-"include/MuonCandidate.h",
-"include/JetCandidate.h",
-"include/HistosManager.h",
-"include/ExoDiBosonAnalysis.h",
 "include/SomeTools.h",
 "include/NtupleManager.h",
+"include/VCandidate.h",
 "include/RecoCandidate.h",
-"include/BTagWeight.h",
+"include/Utilities.h",
 "include/LeptonCandidate.h",
 "include/HLTWeight.h",
 "include/HiggsCandidate.h",
-"include/METCandidate.h",
 "include/MatchingTools.h",
+"include/ExoDiBosonAnalysis.h",
 0
     };
     static const char* includePaths[] = {
-"/mnt/t3nfs01/data01/shome/dschafer/SFrame",
+"/usr/users/dschaefer/SFrame_setup/SFrame-04-00-01",
 "./",
 "/cvmfs/cms.cern.ch/slc6_amd64_gcc530/lcg/root/6.06.00-ikhhed4/include",
-"/mnt/t3nfs01/data01/shome/dschafer/ExoDiBosonAnalysis/",
+"/usr/users/dschaefer/SFrame_setup/ExoDiBosonAnalysis/",
 0
     };
     static const char* fwdDeclCode = R"DICTFWDDCLS(
@@ -521,7 +521,7 @@ extern int __Cling_Autoloading_Map;
 class __attribute__((annotate("$clingAutoload$include/ExoDiBosonAnalysis.h")))  ExoDiBosonAnalysis;
 namespace std{template <typename _Tp> class __attribute__((annotate("$clingAutoload$string")))  allocator;
 }
-class __attribute__((annotate("$clingAutoload$include/InputData.h")))  TLorentzVector;
+class __attribute__((annotate("$clingAutoload$include/BTagWeight.h")))  TLorentzVector;
 )DICTFWDDCLS";
     static const char* payloadCode = R"DICTPAYLOAD(
 #line 1 "ExoDiBosonAnalysis_Dict dictionary payload"
@@ -531,28 +531,28 @@ class __attribute__((annotate("$clingAutoload$include/InputData.h")))  TLorentzV
 #endif
 
 #define _BACKWARD_BACKWARD_WARNING_H
-#include "include/InputData.h"
+#include "include/BTagWeight.h"
+#include "include/JetCandidate.h"
 #include "include/BinomialEff.h"
-#include "include/PUWeight.h"
 #include "include/LumiWeight.h"
-#include "include/VCandidate.h"
+#include "include/InputData.h"
 #include "include/EquationSolver.h"
+#include "include/PUWeight.h"
+#include "include/METCandidate.h"
+#include "include/MuonCandidate.h"
+#include "include/HistosManager.h"
 #include "include/PredictedDistribution.h"
 #include "include/LHEWeight.h"
-#include "include/Utilities.h"
-#include "include/MuonCandidate.h"
-#include "include/JetCandidate.h"
-#include "include/HistosManager.h"
-#include "include/ExoDiBosonAnalysis.h"
 #include "include/SomeTools.h"
 #include "include/NtupleManager.h"
+#include "include/VCandidate.h"
 #include "include/RecoCandidate.h"
-#include "include/BTagWeight.h"
+#include "include/Utilities.h"
 #include "include/LeptonCandidate.h"
 #include "include/HLTWeight.h"
 #include "include/HiggsCandidate.h"
-#include "include/METCandidate.h"
 #include "include/MatchingTools.h"
+#include "include/ExoDiBosonAnalysis.h"
 
 #undef  _BACKWARD_BACKWARD_WARNING_H
 )DICTPAYLOAD";

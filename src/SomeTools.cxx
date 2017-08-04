@@ -2,6 +2,8 @@
 #include "include/InputData.h"
 #include "include/LeptonCandidate.h"
 #include "include/JetCandidate.h"
+#include "include/HistosManager.h"
+#include "include/ExoDiBosonAnalysis.h""
 
 #include <TLorentzVector.h>
 #include <TVector3.h>
@@ -285,21 +287,89 @@ double CalculateCOSTheta1(InputData& data, bool genStudies)
     return TMath::Cos(theta1);    
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////  fill some histograms to test the new selection (without mass window) for Qstar ///////////////////////////////////////////////////////
 
 
 
+int findGenV(InputData& data,bool isMC)
+{
+   int N = (data.genParticle_pdgId)->size(); 
+   for (int i=0;i< N;i++){
+         if (ComesFromGraviton(data,i))
+         {
+            int id = TMath::Abs(data.genParticle_pdgId->at(i));
+            if(  id>=23 and id<=24) return i;
+         }
+    
+  }
+  return -99;
+}
 
 
-
-
-
-
-
-
-
-
-
-
+int findGenQuarkJet(InputData& data,bool isMC)
+{
+  int N = (data.genParticle_pdgId)->size();
+  for (int i=0;i< N;i++){
+         if (ComesFromGraviton(data,i))
+         {
+            int id = TMath::Abs(data.genParticle_pdgId->at(i));
+            if(  id>=1 and id<=6) return i;
+         }
+    
+  }
+  return -99;
+}
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////  check if W is produced resonantly (i.e. if both generated quarks are within the AK8 jet) for Qstar ///////////////////////////////////////////////////////
+
+bool mergedTruth(InputData &data, TLorentzVector AK8jet,bool isMC)
+{
+   if(!isMC) return 1;
+   int associatedQuarks=0;
+   std::vector<int> indices = getGenWZquarks(data, isMC);
+   for(int i=0;i<indices.size();i++)
+   {
+    TLorentzVector q = getGENLVParticle(data,indices.at(i));
+    //std::cout << AK8jet.DeltaR(q) << std::endl;
+    if (AK8jet.DeltaR(q) < 0.8)
+    {
+      associatedQuarks+=1;  
+    }
+       
+   }
+   if (associatedQuarks ==2) return 1;
+   else return 0;
+}
+
+std::vector<int> getGenWZquarks(InputData &data,bool isMC)
+{
+  std::vector<int> indices ={};
+  if (!isMC) return indices;
+  int N = (data.genParticle_pdgId)->size();
+  std::vector<std::vector<int> >* mothers   = data.genParticle_mother  ;
+  for(int i=0;i<N;i++)
+  {
+     if ( TMath::Abs(data.genParticle_pdgId->at(i)) <1 or TMath::Abs(data.genParticle_pdgId->at(i)) >6)
+         continue;
+     if (!( containsWZ(data,mothers->at(i)) or ComesFromGraviton(data,isMC)))
+         continue;
+     indices.push_back(i);
+     //std::cout << " found quarks from W/Z or Graviton in the event " << std::endl;
+      
+  }
+  return indices;  
+}
+
+
+bool containsWZ(InputData &data,std::vector<int> mothers)
+{
+  for( int i=0;i<mothers.size();i++)
+  {
+   if( TMath::Abs(mothers.at(i))==24 or  TMath::Abs(mothers.at(i))==23)
+       return 1;
+  }
+  return 0;
+}

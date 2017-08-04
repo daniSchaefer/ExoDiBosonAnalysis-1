@@ -185,7 +185,7 @@ def doFitOnly(hPRE,hPOST,mass,pdfset):
     print "Pre : "+str(mlowPRE )+ "   "+ str(mupPRE) 
     print "Post: "+str(mlowPOST )+ "    "+str(mupPOST)
     print "========================================="
-    hPRE.Fit(gPRE,"SR")
+    hPRE.Fit(gPRE,"SRL")
     hPOST.Fit(gPOST,"SRL")
     #if mass == 3500 and pdfset==78:
     makePlot("test",str(pdfset),mass,gPRE,gPOST,hPRE,hPOST,x_pre,x_post)
@@ -235,7 +235,7 @@ def makePlot(signal,suffix,mass,gPRE,gPOST,hPRE,hPOST,x_pre,x_post):
     ratio =[ ((gPOST.GetParameter(2)/gPRE.GetParameter(2)-1)*100), ((gPOST.GetParameter(1)/gPRE.GetParameter(1)-1)*100)]
     l.AddEntry(0,"Ratio_{#sigma} = %.2f %%" % ((gPOST.GetParameter(2)/gPRE.GetParameter(2)-1)*100),"")
     l.Draw("same")
-    canv.SaveAs("/mnt/t3nfs01/data01/shome/dschafer/AnalysisOutput/figures/systematics/preVsPostSmearing_dijetMass"+suffix+"_M"+str(int(mass))+"_"+signal+"_PDf.pdf")
+    canv.SaveAs("/storage/jbod/dschaefer/AnalysisOutput/figures/systematics/preVsPostSmearing_dijetMass"+suffix+"_M"+str(int(mass))+"_"+signal+"_PDf.pdf")
     return 0
 
 
@@ -305,8 +305,8 @@ def doFit(fnameCV, fnameSmeared,category,mass,signal):
     gPRE.SetLineColor(kRed)
     gPOST.SetLineColor(kBlue)
     
-    hPRE.Fit(gPRE,"SR")
-    hPOST.Fit(gPOST,"SR")
+    hPRE.Fit(gPRE,"SRL")
+    hPOST.Fit(gPOST,"SRL")
     #fitres1 = doFitWithSignalFunction(hPRE, mass)
     #fitres2 = doFitWithSignalFunction(hPOST, mass)
     
@@ -349,7 +349,7 @@ def doFit(fnameCV, fnameSmeared,category,mass,signal):
     ratio =[ ((gPOST.GetParameter(2)/gPRE.GetParameter(2)-1)*100), ((gPOST.GetParameter(1)/gPRE.GetParameter(1)-1)*100)]
     l.AddEntry(0,"Ratio_{#sigma} = %.2f %%" % ((gPOST.GetParameter(2)/gPRE.GetParameter(2)-1)*100),"")
     l.Draw("same")
-    canv.SaveAs("/mnt/t3nfs01/data01/shome/dschafer/AnalysisOutput/figures/systematics/preVsPostSmearing_dijetMass"+suffix+"_M"+str(int(mass))+"_"+signal+".pdf")
+    canv.SaveAs("/storage/jbod/dschaefer/AnalysisOutput/figures/systematics/preVsPostSmearing_dijetMass"+suffix+"_M"+str(int(mass))+"_"+signal+".pdf")
     time.sleep(2)
     del canv, hPRE, hPOST, tfileCV, tfileSmeared
     
@@ -435,14 +435,14 @@ def plotEffectOnShape(fnameCV,fnameSmeared,mass,cat,sys):
 if __name__=="__main__":
     gStyle.SetOptTitle(0)
     gStyle.SetOptStat(0)
-    category = "qVLP"
+    category = "HPqW"
     fout = "ShapeUncertainty"+category+".txt"
     outfile = open(fout,'w')
     systematics = ["JESup","JESdown","JERup","JERdown"]
-    signals=["QstarQW"]#,"QstarQZ"]
+    signals=["QstarQW","QstarQZ"]
     #signals=["QstarQW"]#,"BulkZZ","ZprimeWW","WprimeWZ"]
     #signals =["ZprimeWW","BulkWW","BulkZZ","WprimeWZ"]
-    doPDF = True
+    doPDF = False
     mass =[]
     if doPDF==False: 
         for signal in signals:
@@ -465,7 +465,7 @@ if __name__=="__main__":
                 mass =[1200, 1400, 1600, 1800, 2000, 2500, 3000, 3500, 4000] #BulkZZ
             if signal.find("QstarQW")!=-1:
                 #category = "HPqV"
-                mass =[ 1200, 1400, 1600 ,1800, 2000 ,2500, 3000, 3500, 4000 ,4500, 5000, 6000, 7000] #QstarQW
+                mass =[ 1200, 1400, 1600 ,1800, 2000 ,2500, 3000, 3500, 4000 ,4500, 5000, 6000] #QstarQW
                 #mass =[6000]
             if signal.find("QstarQZ")!=-1:
                 #category = "HPqV"
@@ -474,8 +474,8 @@ if __name__=="__main__":
             #mass = [1200,2000,3000,4000,5000,6000,7000]
             for sys in systematics:
                 for m in mass:
-                    fname = "/shome/dschafer/ExoDiBosonAnalysis/forSystematics/histosForShapeUnc/"+signal+"_13TeV_"+str(int(m))+"GeV_"+sys+".root"
-                    fname2 = "/shome/dschafer/ExoDiBosonAnalysis/forSystematics/histosForShapeUnc/"+signal+"_13TeV_"+str(int(m))+"GeV_CV.root"
+                    fname = "../forSystematics/histosForShapeUnc/"+signal+"_13TeV_"+str(int(m))+"GeV_"+sys+".root"
+                    fname2 = "../forSystematics/histosForShapeUnc/"+signal+"_13TeV_"+str(int(m))+"GeV_CV.root"
                     
                     
                     plotEffectOnShape(fname,fname2,m,category,sys)
